@@ -15,6 +15,11 @@ class CreateCyclesStudyingDaysGradesTable extends Migration
     {
         Schema::create('cycles_studying_days_grades', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('state')->default(1);
+            $table->integer('cycle_study_day')->unsigned();
+            $table->foreign('cycle_study_day')->references('id')->on('cycles_studying_days')->onDelete('cascade');
+            $table->integer('grade')->unsigned();
+            $table->foreign('grade')->references('id')->on('grades')->onDelete('cascade');
             $table->timestamps();
         });
     }
