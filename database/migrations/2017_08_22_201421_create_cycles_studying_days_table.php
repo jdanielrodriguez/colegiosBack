@@ -19,10 +19,15 @@ class CreateCyclesStudyingDaysTable extends Migration
             $table->date('year');
             $table->date('begin');
             $table->date('end');
+            $table->double('inscription');
+            $table->double('tuiton');
+
             $table->integer('cycle')->unsigned();
             $table->foreign('cycle')->references('id')->on('cycles')->onDelete('cascade');
             $table->integer('study_day')->unsigned();
             $table->foreign('study_day')->references('id')->on('studying_days')->onDelete('cascade');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

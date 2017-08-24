@@ -22,6 +22,7 @@ class CreateTeachersTable extends Migration
             $table->string('cellphone');
             $table->integer('qualification')->nullable()->default(null);
             $table->tinyInteger('state')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

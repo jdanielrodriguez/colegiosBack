@@ -18,8 +18,11 @@ class CreateStudentsAssistancesTable extends Migration
             $table->boolean('assistance')->default(true);
             $table->integer('studied')->default(1);
             $table->integer('state')->default(1);
-            $table->integer('subject_teacher')->unsigned();
-            $table->foreign('subject_teacher')->references('id')->on('subjects_students')->onDelete('cascade');
+
+            $table->integer('subject_student')->unsigned();
+            $table->foreign('subject_student')->references('id')->on('subjects_students')->onDelete('cascade');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

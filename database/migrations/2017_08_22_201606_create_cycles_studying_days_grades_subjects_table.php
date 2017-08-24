@@ -16,10 +16,13 @@ class CreateCyclesStudyingDaysGradesSubjectsTable extends Migration
         Schema::create('cycles_studying_days_grades_subjects', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('state')->default(1);
+
             $table->integer('csdg')->unsigned();
             $table->foreign('csdg')->references('id')->on('cycles_studying_days_grades')->onDelete('cascade');
             $table->integer('subject')->unsigned();
             $table->foreign('subject')->references('id')->on('subjects')->onDelete('cascade');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

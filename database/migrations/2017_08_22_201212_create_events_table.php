@@ -20,8 +20,11 @@ class CreateEventsTable extends Migration
             $table->date('finishdate')->nullable()->default(null);
             $table->string('comment')->nullable()->default(null);
             $table->tinyInteger('state')->default(1);
+
             $table->integer('type')->unsigned();
             $table->foreign('type')->references('id')->on('events_types')->onDelete('cascade');
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

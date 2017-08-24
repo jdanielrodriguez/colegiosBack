@@ -20,8 +20,9 @@ class CreateTutorsTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('cellphone');
-            $table->integer('autorization')->nullable()->default(null);
+            $table->integer('autorization')->nullable()->default(1);
             $table->tinyInteger('state')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

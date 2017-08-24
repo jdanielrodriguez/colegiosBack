@@ -18,10 +18,9 @@ class CreateGradesTable extends Migration
             $table->string('name');
             $table->string('code')->nullable()->default(null);
             $table->string('correlative');
-            $table->string('inscription');
             $table->date('year');
             $table->tinyInteger('state')->default(1);
-            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

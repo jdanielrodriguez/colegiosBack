@@ -18,7 +18,10 @@ class CreateSubjectsTable extends Migration
             $table->string('name');
             $table->string('comment')->nullable()->default(null);
             $table->string('description');
+            $table->double('tuiton')->default(1);
+            $table->double('extra')->default(1);
             $table->tinyInteger('state')->default(1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

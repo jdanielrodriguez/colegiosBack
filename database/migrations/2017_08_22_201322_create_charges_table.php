@@ -25,7 +25,8 @@ class CreateChargesTable extends Migration
 
             $table->integer('idinscription')->unsigned();
             $table->foreign('idinscription')->references('id')->on('inscriptions')->onDelete('cascade');
-
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

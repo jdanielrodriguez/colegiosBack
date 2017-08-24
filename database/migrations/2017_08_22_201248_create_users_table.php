@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('firstname')->nullable()->default(null);
             $table->string('lastname')->nullable()->default(null);
-            $table->string('privileges');
+            $table->integer('privileges')->default(1);
             $table->tinyInteger('state')->default(1);
 
             $table->integer('student')->unsigned()->nullable()->default(null);
@@ -34,6 +34,7 @@ class CreateUsersTable extends Migration
             $table->foreign('type')->references('id')->on('users_types')->onDelete('cascade');
 
             $table->rememberToken();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
