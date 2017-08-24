@@ -15,12 +15,12 @@ class CreateChargesTable extends Migration
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('tuition');
-            $table->boolean('inscription');
+            $table->boolean('tuition')->nullable()->default(null);
+            $table->boolean('inscription')->nullable()->default(null);;
             $table->integer('defaulter')->default(0);
             $table->date('charge_limit');
             $table->double('quantity');
-            $table->integer('increase');
+            $table->double('increase');
             $table->tinyInteger('state')->default(1);
 
             $table->integer('idinscription')->unsigned();
