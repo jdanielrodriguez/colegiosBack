@@ -13,8 +13,14 @@ class CreateInscriptionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('inscritions', function (Blueprint $table) {
+        Schema::create('inscriptions', function (Blueprint $table) {
             $table->increments('id');
+            $table->date('year');
+            $table->tinyInteger('state')->default(1);
+
+            $table->integer('student')->unsigned();
+            $table->foreign('student')->references('id')->on('students')->onDelete('cascade');
+            
             $table->timestamps();
         });
     }
@@ -26,6 +32,6 @@ class CreateInscriptionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('inscritions');
+        Schema::dropIfExists('inscriptions');
     }
 }

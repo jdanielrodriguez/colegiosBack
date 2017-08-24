@@ -15,6 +15,11 @@ class CreateStudentsAssistancesTable extends Migration
     {
         Schema::create('students_assistances', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('assistance')->default(true);
+            $table->integer('studied')->default(1);
+            $table->integer('state')->default(1);
+            $table->integer('subject_teacher')->unsigned();
+            $table->foreign('subject_teacher')->references('id')->on('subjects_students')->onDelete('cascade');
             $table->timestamps();
         });
     }

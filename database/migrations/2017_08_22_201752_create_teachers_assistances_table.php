@@ -15,6 +15,11 @@ class CreateTeachersAssistancesTable extends Migration
     {
         Schema::create('teachers_assistances', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('assistance')->default(true);
+            $table->integer('studied')->default(1);
+            $table->integer('state')->default(1);
+            $table->integer('csdgst')->unsigned();
+            $table->foreign('csdgst')->references('id')->on('cycles_studying_days_grades_subjects_teachers')->onDelete('cascade');
             $table->timestamps();
         });
     }

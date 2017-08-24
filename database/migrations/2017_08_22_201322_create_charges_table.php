@@ -15,6 +15,17 @@ class CreateChargesTable extends Migration
     {
         Schema::create('charges', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('tuition');
+            $table->boolean('inscription');
+            $table->integer('defaulter')->default(0);
+            $table->date('charge_limit');
+            $table->double('quantity');
+            $table->integer('increase');
+            $table->tinyInteger('state')->default(1);
+
+            $table->integer('idinscription')->unsigned();
+            $table->foreign('idinscription')->references('id')->on('inscriptions')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
