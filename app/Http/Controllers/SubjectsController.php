@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Subjects;
 use Response;
+use Validator;
 
 class SubjectsController extends Controller
 {
@@ -38,20 +39,38 @@ class SubjectsController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $newObject = new Subjects();
-            $newObject->name            = $request->get('name');
-            $newObject->description     = $request->get('description');
-            $newObject->save();
-            return Response::json($newObject, 200);
-        
-        } catch (Exception $e) {
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required',
+            'description'          => 'required',
+        ]);
+        if ( $validator->fails() ) {
             $returnData = array (
-                'status' => 500,
-                'message' => $e->getMessage()
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
             );
-            return Response::json($returnData, 500);
+            return Response::json($returnData, 400);
         }
+        else {
+            try {
+                $newObject = new Subjects();
+                $newObject->name            = $request->get('name');
+                $newObject->description     = $request->get('description');
+                $newObject->tuiton          = $request->get('tuiton');
+                $newObject->extra           = $request->get('extra');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+            
+        }
+        
     }
 
     /**
@@ -104,7 +123,9 @@ class SubjectsController extends Controller
                 $objectUpdate->description  = $request->get('description', $objectUpdate->description);
                 $objectUpdate->comment      = $request->get('comment', $objectUpdate->comment);
                 $objectUpdate->state        = $request->get('state', $objectUpdate->state);
-        
+                $objectUpdate->tuiton        = $request->get('tuiton', $objectUpdate->tuiton);
+                $objectUpdate->extra        = $request->get('extra', $objectUpdate->extra);
+                
                 $objectUpdate->save();
                 $objectUpdate->function;
                 return Response::json($objectUpdate, 200);
