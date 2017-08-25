@@ -113,7 +113,32 @@ class GradesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Grades::find($id);
+        if ($objectUpdate) {
+            try {
+                $newObject = new Grades();
+                $objectUpdate->name            = $request->get('name', $objectUpdate->name);
+                $objectUpdate->code            = $request->get('code', $objectUpdate->code);
+                $objectUpdate->correlative     = $request->get('correlative', $objectUpdate->correlative);
+                $objectUpdate->year            = $request->get('year', $objectUpdate->year);
+                $objectUpdate->state           = $request->get('state', $objectUpdate->state);
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**

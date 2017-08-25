@@ -102,10 +102,9 @@ class CyclesController extends Controller
             try {
                 $objectUpdate->description = $request->get('description', $objectUpdate->description);
                 $objectUpdate->code = $request->get('code', $objectUpdate->code);
-                $objectUpdate->study_day = $request->get('study_day', $objectUpdate->study_day);
+                $objectUpdate->state = $request->get('state', $objectUpdate->state);
         
                 $objectUpdate->save();
-                $objectUpdate->function;
                 return Response::json($objectUpdate, 200);
             } catch (Exception $e) {
                 $returnData = array (

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Inscriptions;
+use App\Students;
 use Response;
 use Validator;
 
@@ -40,9 +41,7 @@ class InscriptionsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'grade'          => 'required',
             'student'          => 'required',
-            'study_day'          => 'required',
             'year'          => 'required'
         ]);
         if ( $validator->fails() ) {
@@ -55,9 +54,15 @@ class InscriptionsController extends Controller
         }
         else {
             try {
+                
                 $newObject = new Inscriptions();
                 $newObject->student         = $request->get('student');
                 $newObject->year            = $request->get('year');
+
+                $student = Students::find($request->get('student'));
+                $student->signed_up = 1;
+                $student->save();
+
                 $newObject->save();
                 return Response::json($newObject, 200);
             

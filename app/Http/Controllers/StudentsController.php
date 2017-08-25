@@ -61,7 +61,8 @@ class StudentsController extends Controller
                 $newObject->address     = $request->get('address');
                 $newObject->cellphone   = $request->get('cellphone');
                 $newObject->phone       = $request->get('phone');
-                $newObject->signed_up   = 1;
+                $newObject->leaves      = $request->get('leaves');
+                $newObject->signed_up   = 0;
                 $newObject->save();
                 return Response::json($newObject, 200);
             
@@ -130,10 +131,9 @@ class StudentsController extends Controller
                 $objectUpdate->cellphone   = $request->get('cellphone', $objectUpdate->cellphone);
                 $objectUpdate->phone       = $request->get('phone', $objectUpdate->phone);
                 $objectUpdate->state       = $request->get('state', $objectUpdate->state);
-                $objectUpdate->reference   = $request->get('reference', $objectUpdate->reference);
                 $objectUpdate->signed_up   = $request->get('signed_up', $objectUpdate->signed_up);
+                $objectUpdate->leaves   = $request->get('leaves', $objectUpdate->leaves);
                 $objectUpdate->save();
-                $objectUpdate->function;
                 return Response::json($objectUpdate, 200);
             } catch (Exception $e) {
                 $returnData = array (
