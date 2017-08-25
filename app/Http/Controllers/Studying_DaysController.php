@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Studying_Days;
 use Response;
+use Validator;
 
 
 class Studying_DaysController extends Controller
@@ -39,19 +40,33 @@ class Studying_DaysController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $newObject = new Studying_Days();
-            $newObject->description     = $request->get('description');
-            $newObject->save();
-            return Response::json($newObject, 200);
-        
-        } catch (Exception $e) {
+        $validator = Validator::make($request->all(), [
+            'description'          => 'required'
+        ]);
+        if ( $validator->fails() ) {
             $returnData = array (
-                'status' => 500,
-                'message' => $e->getMessage()
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
             );
-            return Response::json($returnData, 500);
+            return Response::json($returnData, 400);
         }
+        else {
+            try {
+                $newObject = new Studying_Days();
+                $newObject->description     = $request->get('description');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        
     }
 
     /**
