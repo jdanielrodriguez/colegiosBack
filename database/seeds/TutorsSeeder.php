@@ -11,6 +11,14 @@ class TutorsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        DB::table('tutors')->insert([
+            'name'              => 'Sergio',
+            'lastname'          => 'Pineda',
+            'address'           => 'coatepeque',
+            'phone'             => '78458745',
+            'cellphone'          => '54878545',
+            'created_at'        => date('Y-m-d H:m:s'),
+            'updated_at'        => date('Y-m-d H:m:s')
+        ]);
     }
 }

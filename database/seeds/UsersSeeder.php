@@ -37,9 +37,9 @@ class UsersSeeder extends Seeder
             'lastname'          => 'Rodriguez',
             'privileges'        => 1,
             'type'              => 1,
-            'student'           => 1,
+            'student'           => null,
             'teacher'           => null,
-            'tutor'             => null,
+            'tutor'             => 1,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
