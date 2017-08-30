@@ -25,6 +25,7 @@ Route::resource('studyingdays', 'Studying_DaysController');
 Route::resource('subjects', 'SubjectsController');
 Route::resource('teachers', 'TeachersController');
 Route::resource('teachersassistance', 'Teachers_AssistanceController');
+Route::resource('tutors', 'TutorsController');
 Route::resource('studentsassistance', 'Students_AssistanceController');
 Route::resource('users', 'UsersController');
 Route::resource('userstypes', 'Users_TypesController');

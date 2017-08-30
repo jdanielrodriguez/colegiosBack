@@ -67,7 +67,7 @@ class UsersSeeder extends Seeder
             'lastname'          => 'Palacios',
             'privileges'        => 3,
             'type'              => 3,
-            'student'           => 3,
+            'student'           => null,
             'teacher'           => null,
             'tutor'             => null,
             'created_at'        => date('Y-m-d H:m:s'),

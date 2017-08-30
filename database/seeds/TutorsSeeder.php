@@ -12,7 +12,7 @@ class TutorsSeeder extends Seeder
     public function run()
     {
         DB::table('tutors')->insert([
-            'name'              => 'Sergio',
+            'firstname'              => 'Sergio',
             'lastname'          => 'Pineda',
             'address'           => 'coatepeque',
             'phone'             => '78458745',

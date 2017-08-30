@@ -64,7 +64,10 @@ class UsersController extends Controller
                     $newObject->username         = $request->get('username');
                     $newObject->password         = Hash::make($request->get('password'));
                     $newObject->email            = $request->get('email');
-                    $newObject->privileges       = $request->get('privileges');
+                    $newObject->type            = $request->get('type');
+                    $newObject->student            = $request->get('student');
+                    $newObject->teacher            = $request->get('teacher');
+                    $newObject->tutor            = $request->get('tutor');
                     $newObject->save();
                     return Response::json($newObject, 200);
                 

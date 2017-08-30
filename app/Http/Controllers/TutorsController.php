@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Tutors;
+use Response;
+use Validator;
 
 class TutorsController extends Controller
 {
@@ -13,7 +17,7 @@ class TutorsController extends Controller
      */
     public function index()
     {
-        //
+        return Response::json(Tutors::all(), 200);
     }
 
     /**
@@ -45,7 +49,19 @@ class TutorsController extends Controller
      */
     public function show($id)
     {
-        //
+        $objectSee = Tutors::find($id);
+        if ($objectSee) {
+
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**

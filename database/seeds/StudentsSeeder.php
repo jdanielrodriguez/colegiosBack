@@ -12,7 +12,7 @@ class StudentsSeeder extends Seeder
     public function run()
     {
         DB::table('students')->insert([
-            'name'              => 'Daniel',
+            'firstname'              => 'Daniel',
             'lastname'          => 'Rodriguez',
             'address'           => '3era calle 7-52 zona1',
             'phone'             => '78723695',
@@ -24,7 +24,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Estuardo',
+            'firstname'              => 'Estuardo',
             'lastname'          => 'Rocha',
             'address'           => '5ta avenida 5-89 zon 5 guatemala',
             'phone'             => '78723695',
@@ -36,7 +36,7 @@ class StudentsSeeder extends Seeder
         ]);
         
         DB::table('students')->insert([
-            'name'              => 'Elena',
+            'firstname'              => 'Elena',
             'lastname'          => 'Westerhouse',
             'address'           => '4ta calle 7-34 zona 5 quetzaltenango',
             'phone'             => '21122520',
@@ -48,7 +48,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Mariela',
+            'firstname'              => 'Mariela',
             'lastname'          => 'Perez',
             'address'           => '8va avenida 4-56 zona 2 mazatenango',
             'phone'             => '11452205',
@@ -60,7 +60,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Carmela',
+            'firstname'              => 'Carmela',
             'lastname'          => 'Minerva',
             'address'           => '3ra avenida 9-89 calle redentor jalisco',
             'phone'             => '44525462',
@@ -72,7 +72,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Leonor',
+            'firstname'              => 'Leonor',
             'lastname'          => 'Delgado',
             'address'           => '0 calle 8-96 minerva 2',
             'phone'             => '58545869',
@@ -84,7 +84,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Amilcar',
+            'firstname'              => 'Amilcar',
             'lastname'          => 'Arana',
             'address'           => 'colonia carranza casa #39 altos de cotzul',
             'phone'             => '78784585',
@@ -96,7 +96,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Alejandra',
+            'firstname'              => 'Alejandra',
             'lastname'          => 'Flores',
             'address'           => '7ma avenida tercera casa derecha diagonal 7',
             'phone'             => '87878788',
@@ -108,7 +108,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Manuel',
+            'firstname'              => 'Manuel',
             'lastname'          => 'Rascon',
             'address'           => '9na avenida 45-45 zona 0 guatemala',
             'phone'             => '98589654',
@@ -120,7 +120,7 @@ class StudentsSeeder extends Seeder
         ]);
 
         DB::table('students')->insert([
-            'name'              => 'Estevan',
+            'firstname'              => 'Estevan',
             'lastname'          => 'Godoy',
             'address'           => 'avenida elisa norte 389',
             'phone'             => '98578485',
