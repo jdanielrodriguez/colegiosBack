@@ -211,9 +211,10 @@ class UsersController extends Controller
                 $objectUpdate->firstname        = $request->get('firstname', $objectUpdate->firstname);
                 $objectUpdate->lastname         = $request->get('lastname', $objectUpdate->lastname);
                 $objectUpdate->state            = $request->get('state', $objectUpdate->state);
-                $objectUpdate->student            = $request->get('student', $objectUpdate->student);
-                $objectUpdate->teacher            = $request->get('teacher', $objectUpdate->teacher);
+                $objectUpdate->student          = $request->get('student', $objectUpdate->student);
+                $objectUpdate->teacher          = $request->get('teacher', $objectUpdate->teacher);
                 $objectUpdate->tutor            = $request->get('tutor', $objectUpdate->tutor);
+                $objectUpdate->type             = $request->get('type', $objectUpdate->type);
 
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
