@@ -40,7 +40,7 @@ class StudentsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'          => 'required',
+            'firstname'     => 'required',
             'lastname'      => 'required',
             'address'       => 'required',
             'cellphone'     => 'required',
@@ -56,7 +56,7 @@ class StudentsController extends Controller
         else {
             try {
                 $newObject = new Students();
-                $newObject->name        = $request->get('name');
+                $newObject->firstname   = $request->get('firstname');
                 $newObject->lastname    = $request->get('lastname');
                 $newObject->address     = $request->get('address');
                 $newObject->cellphone   = $request->get('cellphone');
@@ -125,7 +125,7 @@ class StudentsController extends Controller
         if ($objectUpdate) {
             try {
                 
-                $objectUpdate->name        = $request->get('name', $objectUpdate->name);
+                $objectUpdate->firstname   = $request->get('firstname', $objectUpdate->firstname);
                 $objectUpdate->lastname    = $request->get('lastname', $objectUpdate->lastname);
                 $objectUpdate->address     = $request->get('address', $objectUpdate->address);
                 $objectUpdate->cellphone   = $request->get('cellphone', $objectUpdate->cellphone);

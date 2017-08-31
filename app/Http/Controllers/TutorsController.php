@@ -38,7 +38,39 @@ class TutorsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'firstname'     => 'required',
+            'lastname'      => 'required',
+            'address'       => 'required',
+            'cellphone'     => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+                try {
+                    $newObject = new Tutors();
+                    $newObject->firstname       = $request->get('firstname');
+                    $newObject->lastname        = $request->get('lastname');
+                    $newObject->address         = $request->get('address');
+                    $newObject->cellphone       = $request->get('cellphone');
+                    $newObject->phone           = $request->get('phone');
+                    $newObject->save();
+                    return Response::json($newObject, 200);
+                
+                } catch (Exception $e) {
+                    $returnData = array (
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                    return Response::json($returnData, 500);
+                }   
+        }
     }
 
     /**
@@ -84,7 +116,35 @@ class TutorsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Tutors::find($id);
+        if ($objectUpdate) {
+            try {
+                
+                $objectUpdate->firstname       = $request->get('firstname', $objectUpdate->firstname);    
+                $objectUpdate->lastname        = $request->get('lastname', $objectUpdate->lastname);
+                $objectUpdate->address         = $request->get('address', $objectUpdate->address);
+                $objectUpdate->cellphone       = $request->get('cellphone', $objectUpdate->cellphone);
+                $objectUpdate->phone           = $request->get('phone', $objectUpdate->phone); 
+                $objectUpdate->state           = $request->get('state', $objectUpdate->state);    
+                $objectUpdate->autorization    = $request->get('autorization', $objectUpdate->autorization);    
+                
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
@@ -95,6 +155,25 @@ class TutorsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $objectDelete = Tutors::find($id);
+        if ($objectDelete) {
+            try {
+                Tutors::destroy($id);
+                return Response::json($objectDelete, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 }

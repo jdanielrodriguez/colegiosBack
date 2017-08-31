@@ -40,10 +40,10 @@ class TeachersController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name'          => 'required',
+            'firstname'     => 'required',
             'lastname'      => 'required',
             'address'       => 'required',
-            'cellphone'      => 'required'
+            'cellphone'     => 'required'
         ]);
         if ( $validator->fails() ) {
             $returnData = array (
@@ -56,7 +56,7 @@ class TeachersController extends Controller
         else {
                 try {
                     $newObject = new Teachers();
-                    $newObject->name            = $request->get('name');
+                    $newObject->firstname       = $request->get('firstname');
                     $newObject->lastname        = $request->get('lastname');
                     $newObject->address         = $request->get('address');
                     $newObject->cellphone       = $request->get('cellphone');
@@ -121,7 +121,7 @@ class TeachersController extends Controller
         if ($objectUpdate) {
             try {
                 
-                $objectUpdate->name            = $request->get('name', $objectUpdate->name);    
+                $objectUpdate->firstname       = $request->get('firstname', $objectUpdate->firstname);    
                 $objectUpdate->lastname        = $request->get('lastname', $objectUpdate->lastname);
                 $objectUpdate->address         = $request->get('address', $objectUpdate->address);
                 $objectUpdate->cellphone       = $request->get('cellphone', $objectUpdate->cellphone);
@@ -130,7 +130,6 @@ class TeachersController extends Controller
                 $objectUpdate->state           = $request->get('state', $objectUpdate->state);    
 
                 $objectUpdate->save();
-                $objectUpdate->function;
                 return Response::json($objectUpdate, 200);
             } catch (Exception $e) {
                 $returnData = array (

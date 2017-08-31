@@ -20,8 +20,8 @@ class CreateStudentsTable extends Migration
             $table->string('address');
             $table->string('phone');
             $table->string('cellphone')->nullable()->default(null);
-            $table->tinyInteger('signed_up');
-            $table->tinyInteger('leaves');
+            $table->tinyInteger('signed_up')->nullable()->default(0);
+            $table->tinyInteger('leaves')->nullable()->default(1);
             $table->tinyInteger('state')->default(1);
             $table->softDeletes();
             $table->timestamps();
