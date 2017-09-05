@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tutors;
+use App\Students;
+use App\Tutors_Students;
 use Response;
 use Validator;
 
@@ -20,6 +22,24 @@ class TutorsController extends Controller
         return Response::json(Tutors::all(), 200);
     }
 
+    public function getStudents($id)
+    {
+        $objectSee = Tutors::find($id);
+        if ($objectSee) {
+            
+            $student = Tutors_Students::select('student')->where('tutor',$objectSee->id)->get();
+            $students = Students::whereIn('id',$student)->get();
+            return Response::json($students, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

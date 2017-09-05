@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Students;
+use App\Tutors_Students;
 use Response;
 use Validator;
 
@@ -19,6 +20,25 @@ class StudentsController extends Controller
     public function index()
     {
         return Response::json(Students::all(), 200);
+    }
+
+    public function getFreeStudents()
+    {
+        $objectSee = Tutors_Students::select('student')->get();
+        if ($objectSee) {
+
+            $objectRet = Students::whereNotIn('id',$objectSee)->get();
+
+            return Response::json($objectRet, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**

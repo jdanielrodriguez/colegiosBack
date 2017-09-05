@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Tutors_Students;
+use Response;
+use Validator;
+use DB;
 
 class Tutors_StudentsController extends Controller
 {
@@ -13,7 +18,7 @@ class Tutors_StudentsController extends Controller
      */
     public function index()
     {
-        //
+        return Response::json(Tutors_Students::all(), 200);
     }
 
     /**
@@ -36,7 +41,147 @@ class Tutors_StudentsController extends Controller
     {
         //
     }
+    public function setStudents(Request $request)
+    {
+        try
+        {
+            if ( $request->get('students') )
+            {
+                DB::beginTransaction();
+                $Array = $request->get('students');
+        
+                foreach ($Array as $value)
+                {
+                    $registro = new Tutors_Students();
+                    $registro->student       = $value['id'];
+                    $registro->tutor       = $request->get('tutor');
+                    
+                    $registro->save();
+                }
+        
+                DB::commit();
+                $returnData = array (
+                    'status' => 200,
+                    'message' => "success"
+                );
+                return Response::json($returnData, 200);
+            }
+            else
+            {
+                DB::rollback();
+                $returnData = array (
+                    'status' => 400,
+                    'message' => 'Invalid Parameters'
+                );
+                return Response::json($returnData, 400);
+            }    
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            if($e->errorInfo[0] == '01000'){
+                $errorMessage = "Error Constraint";
+            }  else {
+                $errorMessage = $e->getMessage();
+            }
+            $returnData = array (
+                'status' => 505,
+                'SQLState' => $e->errorInfo[0],
+                'message' => $errorMessage
+            );
+            return Response::json($returnData, 500);
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $returnData = array (
+                'status' => 500,
+                'message' => $e->getMessage()
+            );
+            return Response::json($returnData, 500);
+        }
+    }
+    public function removeStudents(Request $request)
+    {
+        try
+        {
+            if ( $request->get('students') )
+            {
+                DB::beginTransaction();
+                $Array = $request->get('students');
+                $studentsId = collect();
+                foreach ($Array as $value)
+                {
+                    $objectDelete = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$request->get('tutor')])->first();
+                    if($objectDelete){
+                        $studentsId->push($objectDelete->id);       
+                    } 
+                }
 
+                try {
+                    if(count($studentsId)>0)
+                    {
+                        Tutors_Students::destroy($studentsId);
+                    }
+                    DB::commit();
+                    $returnData = array (
+                        'status' => 200,
+                        'message' => "success"
+                    );
+                    return Response::json($returnData, 200);
+                }catch (\Illuminate\Database\QueryException $e) {
+                    if($e->errorInfo[0] == '01000'){
+                        $errorMessage = "Error Constraint";
+                    }  else {
+                        $errorMessage = $e->getMessage();
+                    }
+                    $returnData = array (
+                        'status' => 505,
+                        'SQLState' => $e->errorInfo[0],
+                        'message' => $errorMessage
+                    );
+                    return Response::json($returnData, 500);
+                } catch (Exception $e) {
+                    $returnData = array (
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                    return Response::json($returnData, 500);
+                }
+        
+                
+            }
+            else
+            {
+                DB::rollback();
+                $returnData = array (
+                    'status' => 400,
+                    'message' => 'Invalid Parameters'
+                );
+                return Response::json($returnData, 400);
+            }    
+        } catch (\Illuminate\Database\QueryException $e) {
+            DB::rollback();
+            if($e->errorInfo[0] == '01000'){
+                $errorMessage = "Error Constraint";
+            }  else {
+                $errorMessage = $e->getMessage();
+            }
+            $returnData = array (
+                'status' => 505,
+                'SQLState' => $e->errorInfo[0],
+                'message' => $errorMessage
+            );
+            return Response::json($returnData, 500);
+        }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $returnData = array (
+                'status' => 500,
+                'message' => $e->getMessage()
+            );
+            return Response::json($returnData, 500);
+        }
+    }
     /**
      * Display the specified resource.
      *

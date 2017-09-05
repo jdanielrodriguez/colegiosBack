@@ -21,6 +21,7 @@ Route::resource('gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsControlle
 Route::resource('homeworks', 'HomeworksController');
 Route::resource('inscriptions', 'InscriptionsController');
 Route::resource('students', 'StudentsController');
+Route::resource('studentstutor', 'Tutors_StudentsController');
 Route::resource('studyingdays', 'Studying_DaysController');
 Route::resource('subjects', 'SubjectsController');
 Route::resource('teachers', 'TeachersController');
@@ -32,11 +33,15 @@ Route::resource('userstypes', 'Users_TypesController');
 
 Route::get('grades/{id}/subjects', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjects');
 Route::get('students/{id}/charges', 'ChargesController@getInscriptionsCharges');
+Route::get('freestudents', 'StudentsController@getFreeStudents');
+Route::get('tutors/{id}/students', 'TutorsController@getStudents');
 
 Route::post('charges/signedup', 'ChargesController@setCharges');
 Route::post('charges/update', 'ChargesController@setChargesUpdate');
 Route::post('homeworks/signedup', 'HomeworksController@setHomeworks');
 Route::post('homeworks/update', 'HomeworksController@setHomeworksUpdate');
+Route::post('studentstutor/signedup', 'Tutors_StudentsController@setStudents');
+Route::post('studentstutor/signeddown', 'Tutors_StudentsController@removeStudents');
 Route::post('subjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setGrades_Subjects');
 Route::post('users/{id}/changepassword', 'UsersController@changePassword');
 Route::post('users/signedup', 'Users_StudentsController@setUsers_Students');
