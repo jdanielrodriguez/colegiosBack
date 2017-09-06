@@ -49,14 +49,17 @@ class Tutors_StudentsController extends Controller
             {
                 DB::beginTransaction();
                 $Array = $request->get('students');
-        
+                $tutor = $request->get('tutor');
                 foreach ($Array as $value)
                 {
-                    $registro = new Tutors_Students();
-                    $registro->student       = $value['id'];
-                    $registro->tutor       = $request->get('tutor');
-                    
-                    $registro->save();
+                    $existe = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$tutor])->first();
+                    if(sizeof($existe)<=0){    
+                        $registro = new Tutors_Students();
+                        $registro->student       = $value['id'];
+                        $registro->tutor       = $tutor;
+                        
+                        $registro->save();
+                    }
                 }
         
                 DB::commit();
@@ -73,7 +76,7 @@ class Tutors_StudentsController extends Controller
                     'status' => 400,
                     'message' => 'Invalid Parameters'
                 );
-                return Response::json($returnData, 400);
+                return Response::json($returnData, 200);
             }    
         } catch (\Illuminate\Database\QueryException $e) {
             DB::rollback();
@@ -107,47 +110,23 @@ class Tutors_StudentsController extends Controller
             {
                 DB::beginTransaction();
                 $Array = $request->get('students');
+                $tutor = $request->get('tutor');
                 $studentsId = collect();
                 foreach ($Array as $value)
                 {
-                    $objectDelete = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$request->get('tutor')])->first();
-                    if($objectDelete){
-                        $studentsId->push($objectDelete->id);       
+                    $objectDelete = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$tutor])->first();
+                    if(sizeof($objectDelete)>0){    
+                        $studentsId->push($objectDelete->id); 
+                        Tutors_Students::destroy($objectDelete->id);      
                     } 
                 }
 
-                try {
-                    if(count($studentsId)>0)
-                    {
-                        Tutors_Students::destroy($studentsId);
-                    }
-                    DB::commit();
-                    $returnData = array (
-                        'status' => 200,
-                        'message' => "success"
-                    );
-                    return Response::json($returnData, 200);
-                }catch (\Illuminate\Database\QueryException $e) {
-                    if($e->errorInfo[0] == '01000'){
-                        $errorMessage = "Error Constraint";
-                    }  else {
-                        $errorMessage = $e->getMessage();
-                    }
-                    $returnData = array (
-                        'status' => 505,
-                        'SQLState' => $e->errorInfo[0],
-                        'message' => $errorMessage
-                    );
-                    return Response::json($returnData, 500);
-                } catch (Exception $e) {
-                    $returnData = array (
-                        'status' => 500,
-                        'message' => $e->getMessage()
-                    );
-                    return Response::json($returnData, 500);
-                }
-        
-                
+                DB::commit();
+                $returnData = array (
+                    'status' => 200,
+                    'message' => "success"
+                );
+                return Response::json($returnData, 200);
             }
             else
             {
@@ -192,6 +171,8 @@ class Tutors_StudentsController extends Controller
     {
         //
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.

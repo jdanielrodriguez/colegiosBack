@@ -33,8 +33,11 @@ Route::resource('userstypes', 'Users_TypesController');
 
 Route::get('grades/{id}/subjects', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjects');
 Route::get('students/{id}/charges', 'ChargesController@getInscriptionsCharges');
-Route::get('freestudents', 'StudentsController@getFreeStudents');
 Route::get('tutors/{id}/students', 'TutorsController@getStudents');
+Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
+
+Route::get('free/students', 'StudentsController@getFreeStudents');
+Route::get('bussy/tutors', 'TutorsController@getTutorBussy');
 
 Route::post('charges/signedup', 'ChargesController@setCharges');
 Route::post('charges/update', 'ChargesController@setChargesUpdate');
