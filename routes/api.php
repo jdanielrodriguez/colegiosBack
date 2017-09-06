@@ -14,6 +14,10 @@ use Illuminate\Http\Request;
 */
 Route::resource('charges', 'ChargesController');
 Route::resource('cycles', 'CyclesController');
+Route::resource('cyclesstudyingdays', 'Cycles_Studying_DaysController');
+Route::resource('studyingdaysgrades', 'Cycles_Studying_Days_GradesController');
+Route::resource('gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsController');
+Route::resource('subjectsteachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController');
 Route::resource('events', 'EventsController');
 Route::resource('eventstypes', 'Events_TypesController');
 Route::resource('grades', 'GradesController');
