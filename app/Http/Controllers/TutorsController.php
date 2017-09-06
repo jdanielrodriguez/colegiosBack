@@ -115,7 +115,44 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
+    public function getTutorStudents(){
+        $objectSee = Tutors_Students::select('tutor')->groupby('tutor')->with('tutorInfo')->first();
+        if ($objectSee) {
+            $objectSee1 = Tutors_Students::where('tutor',$objectSee->tutor)->with('studentInfo')->get();
+            $return = array (
+                'tutor' => $objectSee->tutorInfo,
+                'students' => $objectSee1
+            );
+            return Response::json($return, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
 
+    public function getTutorBussy()
+    {
+        $objectSee = Tutors_Students::select('tutor')->get();
+        if ($objectSee) {
+
+            $objectRet = Tutors::whereIn('id',$objectSee)->get();
+
+            return Response::json($objectRet, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *
