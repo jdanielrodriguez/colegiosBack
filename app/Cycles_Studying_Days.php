@@ -9,4 +9,12 @@ class Cycles_Studying_Days extends Model
 {
     use SoftDeletes;
     protected $table = 'cycles_studying_days';
+
+    public function cycles(){
+        return $this->hasOne('App\Cycles','id','cycle');
+    }
+
+    public function studying_days(){
+        return $this->hasOne('App\Studying_Days','id','study_day');
+    }
 }
