@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cycles_Studying_Days;
+use App\Cycles_Studying_Days_Grades;
+use App\Grades;
 use Response;
 use Validator;
 class Cycles_Studying_DaysController extends Controller
@@ -16,9 +18,27 @@ class Cycles_Studying_DaysController extends Controller
      */
     public function index()
     {
-        return Response::json(Cycles_Studying_Days::all(), 200);
+        return Response::json(Cycles_Studying_Days::with('cycles')->with('studying_days')->get(), 200);
     }
 
+    public function getGrades($id)
+    {
+        $objectSee = Cycles_Studying_Days::find($id);
+        if ($objectSee) {
+            
+            $grade = Cycles_Studying_Days_Grades::select('grade')->where('cycle_study_day',$objectSee->id)->get();
+            $grades = Grades::whereIn('id',$grade)->get();
+            return Response::json($grades, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -41,7 +61,7 @@ class Cycles_Studying_DaysController extends Controller
            'begin'          => 'required',
            'end'            => 'required',
            'cycle'          => 'required',
-           'studying_day'   => 'required'
+           'study_day'      => 'required'
         ]);
        if ( $validator->fails() ) {
            $returnData = array (
@@ -54,13 +74,13 @@ class Cycles_Studying_DaysController extends Controller
        else {
            try {
                $newObject = new Cycles_Studying_Days();
-               $newObject->begin            = $request->get('begin');
+               $newObject->begin          = $request->get('begin');
                $newObject->end            = $request->get('end');
-               $newObject->cycle            = $request->get('cycle');
-               $newObject->studying_day            = $request->get('studying_day');
-               $newObject->year            = substr($request->get('begin'));
-               $newObject->column            = $request->get('get');
-               $newObject->column            = $request->get('get');
+               $newObject->cycle          = $request->get('cycle');
+               $newObject->study_day      = $request->get('study_day');
+               $newObject->year           = ($request->get('begin'));
+               $newObject->inscription    = $request->get('inscription');
+               $newObject->tuiton         = $request->get('tuiton');
                $newObject->save();
                return Response::json($newObject, 200);
            
@@ -94,7 +114,18 @@ class Cycles_Studying_DaysController extends Controller
      */
     public function show($id)
     {
-        //
+        $objectSee = Cycles_Studying_Days::find($id);
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
@@ -117,7 +148,46 @@ class Cycles_Studying_DaysController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $objectUpdate = Cycles_Studying_Days::find($id);
+        if ($objectUpdate) {
+            try {
+                $objectUpdate->begin          = $request->get('begin', $objectUpdate->begin);
+                $objectUpdate->end            = $request->get('end', $objectUpdate->end);
+                $objectUpdate->cycle          = $request->get('cycle', $objectUpdate->cycle);
+                $objectUpdate->study_day      = $request->get('study_day', $objectUpdate->study_day);
+                $objectUpdate->year           = $request->get('begin', $objectUpdate->begin);
+                $objectUpdate->inscription    = $request->get('inscription', $objectUpdate->inscription);
+                $objectUpdate->tuiton         = $request->get('tuiton', $objectUpdate->tuiton);
+                $objectUpdate->save();
+
+                return Response::json($objectUpdate, 200);
+            }catch (\Illuminate\Database\QueryException $e) {
+                if($e->errorInfo[0] == '01000'){
+                    $errorMessage = "Error Constraint";
+                }  else {
+                    $errorMessage = $e->getMessage();
+                }
+                $returnData = array (
+                    'status' => 505,
+                    'SQLState' => $e->errorInfo[0],
+                    'message' => $errorMessage
+                );
+                return Response::json($returnData, 500);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 
     /**
@@ -128,6 +198,25 @@ class Cycles_Studying_DaysController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $objectDelete = Cycles_Studying_Days::find($id);
+        if ($objectDelete) {
+            try {
+                Cycles_Studying_Days::destroy($id);
+                return Response::json($objectDelete, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 }
