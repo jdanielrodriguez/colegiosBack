@@ -38,9 +38,11 @@ Route::resource('userstypes', 'Users_TypesController');
 Route::get('grades/{id}/subjects', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjects');
 Route::get('students/{id}/charges', 'ChargesController@getInscriptionsCharges');
 Route::get('tutors/{id}/students', 'TutorsController@getStudents');
+Route::get('studyingdays/{id}/grades', 'Cycles_Studying_DaysController@getGrades');
 Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
 
 Route::get('free/students', 'StudentsController@getFreeStudents');
+Route::get('bussy/studyingdaysgrades', 'Cycles_Studying_Days_GradesController@getBussyCycles_Studying_Days_Grades');
 Route::get('bussy/tutors', 'TutorsController@getTutorBussy');
 
 Route::post('charges/signedup', 'ChargesController@setCharges');
@@ -48,6 +50,8 @@ Route::post('charges/update', 'ChargesController@setChargesUpdate');
 Route::post('homeworks/signedup', 'HomeworksController@setHomeworks');
 Route::post('homeworks/update', 'HomeworksController@setHomeworksUpdate');
 Route::post('studentstutor/signedup', 'Tutors_StudentsController@setStudents');
+Route::post('studyingdaysgrades/signedup', 'Cycles_Studying_Days_GradesController@setGrades');
+Route::post('studyingdaysgrades/signeddown', 'Cycles_Studying_Days_GradesController@removeGrades');
 Route::post('studentstutor/signeddown', 'Tutors_StudentsController@removeStudents');
 Route::post('subjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setGrades_Subjects');
 Route::post('users/{id}/changepassword', 'UsersController@changePassword');
