@@ -81,23 +81,86 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
          }
      }
  
-     public function setGrades_Subjects(Request $request)
+     public function setSubjects(Request $request)
      {
          try
          {
              if ( $request->get('subjects') )
              {
                  DB::beginTransaction();
-                 $subjectsArray = $request->get('subjects');
- 
-                foreach ($subjectsArray as $value)
+                 $Array = $request->get('subjects');
+                 $master = $request->get('grade');
+                 foreach ($Array as $value)
                  {
-                     $registro = new Cycles_Studying_Days_Grades_Subjects();
-                     $registro->subject       = $value['subject'];
-                     $registro->csdg          = $value['grade'];
-                     $registro->save();
+                     $existe = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
+                     if(sizeof($existe)<=0){    
+                         $registro = new Cycles_Studying_Days_Grades_Subjects();
+                         $registro->grade       = $value['id'];
+                         $registro->cycle_study_day         = $master;
+                         
+                         $registro->save();
+                     }
                  }
-                 
+         
+                 DB::commit();
+                 $returnData = array (
+                     'status' => 200,
+                     'message' => "success"
+                 );
+                 return Response::json($returnData, 200);
+             }
+             else
+             {
+                 DB::rollback();
+                 $returnData = array (
+                     'status' => 400,
+                     'message' => 'Invalid Parameters'
+                 );
+                 return Response::json($returnData, 200);
+             }    
+         } catch (\Illuminate\Database\QueryException $e) {
+             DB::rollback();
+             if($e->errorInfo[0] == '01000'){
+                 $errorMessage = "Error Constraint";
+             }  else {
+                 $errorMessage = $e->getMessage();
+             }
+             $returnData = array (
+                 'status' => 505,
+                 'SQLState' => $e->errorInfo[0],
+                 'message' => $errorMessage
+             );
+             return Response::json($returnData, 500);
+         }
+         catch (Exception $e)
+         {
+             DB::rollback();
+             $returnData = array (
+                 'status' => 500,
+                 'message' => $e->getMessage()
+             );
+             return Response::json($returnData, 500);
+         }
+     }
+     public function removeSubjects(Request $request)
+     {
+         try
+         {
+             if ( $request->get('subjects') )
+             {
+                 DB::beginTransaction();
+                 $Array = $request->get('subjects');
+                 $master = $request->get('grade');
+                 $studentsId = collect();
+                 foreach ($Array as $value)
+                 {
+                     $objectDelete = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
+                     if(sizeof($objectDelete)>0){    
+                         $studentsId->push($objectDelete->id); 
+                         Cycles_Studying_Days_Grades_Subjects::destroy($objectDelete->id);      
+                     } 
+                 }
+ 
                  DB::commit();
                  $returnData = array (
                      'status' => 200,
@@ -114,20 +177,20 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                  );
                  return Response::json($returnData, 400);
              }    
-        } catch (\Illuminate\Database\QueryException $e) {
-            DB::rollback();
-            if($e->errorInfo[0] == '01000'){
-                $errorMessage = "Error Constraint";
-            }  else {
-                $errorMessage = $e->getMessage();
-            }
-            $returnData = array (
-                'status' => 505,
-                'SQLState' => $e->errorInfo[0],
-                'message' => $errorMessage
-            );
-            return Response::json($returnData, 500);
-        }
+         } catch (\Illuminate\Database\QueryException $e) {
+             DB::rollback();
+             if($e->errorInfo[0] == '01000'){
+                 $errorMessage = "Error Constraint";
+             }  else {
+                 $errorMessage = $e->getMessage();
+             }
+             $returnData = array (
+                 'status' => 505,
+                 'SQLState' => $e->errorInfo[0],
+                 'message' => $errorMessage
+             );
+             return Response::json($returnData, 500);
+         }
          catch (Exception $e)
          {
              DB::rollback();
@@ -138,7 +201,25 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
              return Response::json($returnData, 500);
          }
      }
+
+     public function getBussyCycles_Studying_Days_Grades_Subjects()
+     {
+         $objectSee = Cycles_Studying_Days_Grades_Subjects::select('csdg')->get();
+         if ($objectSee) {
  
+             $objectRet = Cycles_Studying_Days_Grades::whereIn('id',$objectSee)->with('grades')->with('subjects')->get();
+ 
+             return Response::json($objectRet, 200);
+         
+         }
+         else {
+             $returnData = array (
+                 'status' => 404,
+                 'message' => 'No record found'
+             );
+             return Response::json($returnData, 404);
+         }
+     }
      /**
       * Display the specified resource.
       *
