@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Cycles_Studying_Days_Grades_Subjects;
+use App\Cycles_Studying_Days_Grades;
 use App\Subjects;
 use Response;
 use Validator;
