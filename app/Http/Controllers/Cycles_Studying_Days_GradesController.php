@@ -21,7 +21,22 @@ class Cycles_Studying_Days_GradesController extends Controller
     {
         return Response::json(Cycles_Studying_Days_Grades::with('grades')->with('cycles_studying_days')->get(), 200);
     }
-
+    public function getGrades($id,$id2)
+    {
+        $objectSee = Cycles_Studying_Days_Grades::whereRaw('cycle_study_day=? and grade=?',[$id,$id2])->with('grades')->first();
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
