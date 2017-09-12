@@ -19,7 +19,7 @@ class Cycles_Studying_Days_GradesController extends Controller
      */
     public function index()
     {
-        return Response::json(Cycles_Studying_Days_Grades::all(), 200);
+        return Response::json(Cycles_Studying_Days_Grades::with('grades')->with('cycles_studying_days')->get(), 200);
     }
 
     /**
@@ -225,6 +225,25 @@ class Cycles_Studying_Days_GradesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $objectDelete = Cycles_Studying_Days_Grades::find($id);
+        if ($objectDelete) {
+            try {
+                Cycles_Studying_Days_Grades::destroy($id);
+                return Response::json($objectDelete, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
     }
 }

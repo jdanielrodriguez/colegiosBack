@@ -247,7 +247,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
      {
          $objectSee = Cycles_Studying_Days_Grades_Subjects::select('subject')->where('csdg',$id)->get();
          if ($objectSee) {
-             $subjects = Subjects::whereIn('id',$objectSee)->orderby('name')->get();
+             $subjects = Subjects::whereIn('id',$objectSee)->with('grades')->orderby('name')->get();
              return Response::json($subjects, 200);
          
          }
