@@ -19,7 +19,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        return Response::json(Users::all(), 200);
+        return Response::json(Users::with('types')->get(), 200);
     }
 
     /**
