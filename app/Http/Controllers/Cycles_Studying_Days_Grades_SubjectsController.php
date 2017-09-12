@@ -96,8 +96,8 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                      $existe = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
                      if(sizeof($existe)<=0){    
                          $registro = new Cycles_Studying_Days_Grades_Subjects();
-                         $registro->grade       = $value['id'];
-                         $registro->cycle_study_day         = $master;
+                         $registro->subject       = $value['id'];
+                         $registro->csdg         = $master;
                          
                          $registro->save();
                      }
@@ -208,7 +208,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
          $objectSee = Cycles_Studying_Days_Grades_Subjects::select('csdg')->get();
          if ($objectSee) {
  
-             $objectRet = Cycles_Studying_Days_Grades::whereIn('id',$objectSee)->with('grades')->with('subjects')->get();
+             $objectRet = Cycles_Studying_Days_Grades::whereIn('id',$objectSee)->with('cycles_studying_days')->with('grades')->with('subjects')->get();
  
              return Response::json($objectRet, 200);
          
@@ -247,7 +247,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
      {
          $objectSee = Cycles_Studying_Days_Grades_Subjects::select('subject')->where('csdg',$id)->get();
          if ($objectSee) {
-             $subjects = Subjects::whereIn('id',$objectSee)->with('grades')->orderby('name')->get();
+             $subjects = Subjects::whereIn('id',$objectSee)->orderby('name')->get();
              return Response::json($subjects, 200);
          
          }
