@@ -13,4 +13,7 @@ class Users extends Authenticatable
 
     protected $hidden = array('password','remember_token');
     
+    public function types(){
+        return $this->hasOne('App\Users_Types','id','type');
+    }
 }
