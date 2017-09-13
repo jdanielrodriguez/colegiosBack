@@ -9,4 +9,8 @@ class Inscriptions extends Model
 {
     use SoftDeletes;
     protected $table = 'inscriptions';
+
+    public function students(){
+        return $this->hasOne('App\Students','id','student');
+    }
 }

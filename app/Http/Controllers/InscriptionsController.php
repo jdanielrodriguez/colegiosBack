@@ -19,9 +19,27 @@ class InscriptionsController extends Controller
      */
     public function index()
     {
-        return Response::json(Inscriptions::all(), 200);
+        return Response::json(Inscriptions::with('students')->get(), 200);
     }
+    
+    public function getFreeStudents()
+    {
+        $objectSee = Inscriptions::select('student')->get();
+        if ($objectSee) {
 
+            $objectRet = Students::whereNotIn('id',$objectSee)->get();
+
+            return Response::json($objectRet, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
