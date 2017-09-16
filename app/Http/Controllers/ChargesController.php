@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Charges;
+use App\Inscriptions;
 use Response;
 use Validator;
 use DB;
@@ -27,6 +28,22 @@ class ChargesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function getBussyCharges(){
+        $objectSee = Charges::select('idinscription as id')->groupby('idinscription')->get();
+        if ($objectSee) {
+            $inscriptions = Inscriptions::whereIn('id',$objectSee)->with('students')->get();
+            return Response::json($inscriptions, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     public function create()
     {
         //
@@ -208,6 +225,52 @@ class ChargesController extends Controller
             return Response::json($returnData, 500);
         }
     }
+
+    public function removeCharges(Request $request)
+    {
+        try
+        {
+            if ( $request->get('charges') )
+            {
+                DB::beginTransaction();
+                $chargesArray = $request->get('charges');
+
+               foreach ($chargesArray as $value)
+                {
+                    $objectDelete = Charges::whereRaw('idinscription=?',[$value['idinscription']])->first();
+                    if(sizeof($objectDelete)>0){    
+                        Charges::destroy($objectDelete->id);      
+                    } 
+                    
+                }
+                
+                DB::commit();
+                $returnData = array (
+                    'status' => 200,
+                    'message' => "success"
+                );
+                return Response::json($returnData, 200);
+            }
+            else
+            {
+                DB::rollback();
+                $returnData = array (
+                    'status' => 400,
+                    'message' => 'Invalid Parameters'
+                );
+                return Response::json($returnData, 400);
+            }    
+       }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $returnData = array (
+                'status' => 500,
+                'message' => $e->getMessage()
+            );
+            return Response::json($returnData, 500);
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -234,12 +297,12 @@ class ChargesController extends Controller
     public function getInscriptionsCharges(Request $request,$id)
     {
         if($request->get('option')=='pagados'){
-        $objectSee = Charges::whereRaw('idinscription=? and state=0',$id)->get();}
+        $objectSee = Inscriptions::whereRaw('id=?',$id)->with('chargesPay')->with('students')->first();}
         else
         if($request->get('option')=='porpagar'){
-        $objectSee = Charges::whereRaw('idinscription=? and state=1',$id)->get();}
+        $objectSee = Inscriptions::whereRaw('id=?',$id)->with('chargesPending')->with('students')->first();}
         else {
-        $objectSee = Charges::whereRaw('idinscription=?',$id)->get();}
+        $objectSee = Inscriptions::whereRaw('id=?',$id)->with('charges')->with('students')->first();}
 
         if ($objectSee) {
             
