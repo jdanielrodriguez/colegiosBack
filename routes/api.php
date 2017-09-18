@@ -48,6 +48,7 @@ Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
 Route::get('free/students', 'StudentsController@getFreeStudents');
 Route::get('free/studentinscriptions', 'InscriptionsController@getFreeStudents');
 Route::get('bussy/gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsController@getBussyCycles_Studying_Days_Grades_Subjects');
+Route::get('bussy/subjectsteachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getBussyCycles_Studying_Days_Grades_Subjects_Teachers');
 Route::get('bussy/charges', 'ChargesController@getBussyCharges');
 Route::get('bussy/studyingdaysgrades', 'Cycles_Studying_Days_GradesController@getBussyCycles_Studying_Days_Grades');
 Route::get('bussy/studyingdaysgrades/inscriptions', 'Inscriptions_Cycles_Studying_DaysController@getBussyInscriptions_Cycles_Studying_Days');
