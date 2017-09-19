@@ -259,6 +259,23 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
              return Response::json($returnData, 404);
          }
      }
+
+     public function getGradesSubjectsId($id,$id2)
+     {
+         $objectSee = Cycles_Studying_Days_Grades_Subjects::whereRaw('csdg=? and subject=?',[$id,$id2])->first();
+         if ($objectSee) {
+             
+             return Response::json($objectSee, 200);
+         
+         }
+         else {
+             $returnData = array (
+                 'status' => 404,
+                 'message' => 'No record found'
+             );
+             return Response::json($returnData, 404);
+         }
+     }
  
      
      /**
