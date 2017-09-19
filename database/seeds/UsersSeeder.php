@@ -33,7 +33,7 @@ class UsersSeeder extends Seeder
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
-
+        
         DB::table('users')->insert([
             'username'          => 'Deaniell',
             'password'          => bcrypt('1234'),
@@ -41,44 +41,47 @@ class UsersSeeder extends Seeder
             'firstname'         => 'Daniel',
             'lastname'          => 'Rodriguez',
             'privileges'        => 1,
-            'type'              => 1,
-            'student'           => null,
+            'state'             => 1,
+            'student'           => 1,
             'teacher'           => null,
-            'tutor'             => 1,
+            'tutor'             => null,
+            'type'              => 1,
+            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
-
         DB::table('users')->insert([
             'username'          => 'alex',
             'password'          => bcrypt('1234'),
             'email'             => 'alex@foxy.com',
-            'firstname'         => 'Alex',
-            'lastname'          => 'Mejicanos',
+            'firstname'         => 'Mario',
+            'lastname'          => 'Estrada',
             'privileges'        => 2,
-            'type'              => 2,
-            'student'           => 2,
-            'teacher'           => null,
+            'state'             => 1,
+            'student'           => null,
+            'teacher'           => 2,
             'tutor'             => null,
+            'type'              => 2,
+            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
-
         DB::table('users')->insert([
             'username'          => 'guille',
             'password'          => bcrypt('1234'),
             'email'             => 'guillermo@foxy.com',
-            'firstname'         => 'Guillermo',
-            'lastname'          => 'Palacios',
+            'firstname'         => null,
+            'lastname'          => null,
             'privileges'        => 3,
-            'type'              => 3,
+            'state'             => 1,
             'student'           => null,
             'teacher'           => null,
             'tutor'             => null,
+            'type'              => 4,
+            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
-
         DB::table('users')->insert([
             'username'          => 'andre',
             'password'          => bcrypt('1234'),
@@ -86,27 +89,33 @@ class UsersSeeder extends Seeder
             'firstname'         => 'Andre',
             'lastname'          => 'Juarez',
             'privileges'        => 1,
-            'type'              => 1,
+            'state'             => 1,
             'student'           => null,
             'teacher'           => 4,
             'tutor'             => null,
+            'type'              => 1,
+            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
-
         DB::table('users')->insert([
             'username'          => 'ale',
             'password'          => bcrypt('1234'),
             'email'             => 'ale@foxy.com',
-            'firstname'         => 'Alejandro',
-            'lastname'          => 'Godoy',
+            'firstname'         => 'Sergio',
+            'lastname'          => 'Pineda',
             'privileges'        => 3,
-            'type'              => 3,
+            'state'             => 1,
             'student'           => null,
-            'teacher'           => 5,
-            'tutor'             => null,
+            'teacher'           => null,
+            'tutor'             => 1,
+            'type'              => 3,
+            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
-        ]);
+            ]);
+        
+
+       
     }
 }
