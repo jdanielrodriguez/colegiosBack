@@ -7,8 +7,10 @@ use App\Http\Requests;
 use App\Cycles_Studying_Days_Grades_Subjects_Teachers;
 use App\Cycles_Studying_Days_Grades_Subjects;
 use App\Subjects;
+use App\Teachers;
 use Response;
 use Validator;
+use DB;
 
 class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
 {
@@ -21,12 +23,12 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
     {
         return Response::json(Cycles_Studying_Days_Grades_Subjects_Teachers::all(), 200);
     }
-
+    
     public function getGradesSubjectsTeachers($id)
     {
-        $objectSee = Cycles_Studying_Days_Grades_Subjects::select('id')->where('csdg',$id)->get();
+        $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('teacher')->where('csdgs',$id)->get();
         if ($objectSee) {
-            $subjects = Cycles_Studying_Days_Grades_Subjects_Teachers::whereIn('csdgs',$objectSee)->with('subjects')->with('teachers')->get();
+            $subjects = Teachers::whereIn('id',$objectSee)->get();
             return Response::json($subjects, 200);
         
         }
@@ -185,7 +187,7 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
         $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('csdgs')->get();
         if ($objectSee) {
 
-            $objectRet = Cycles_Studying_Days_Grades_Subjects::whereIn('id',$objectSee)->get();
+            $objectRet = Cycles_Studying_Days_Grades_Subjects::whereIn('id',$objectSee)->with('subjects')->with('grades')->get();
 
             return Response::json($objectRet, 200);
         
