@@ -19,6 +19,8 @@ class CreateEventsTable extends Migration
             $table->date('begindate')->nullable()->default(null);
             $table->date('finishdate')->nullable()->default(null);
             $table->string('comment')->nullable()->default(null);
+            $table->string('backColor')->nullable()->default(null);
+            $table->string('color')->nullable()->default(null);
             $table->tinyInteger('state')->default(1);
 
             $table->integer('type')->unsigned();
