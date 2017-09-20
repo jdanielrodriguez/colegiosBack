@@ -41,6 +41,23 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
         }
     }
 
+    public function getTeachersSubjects($id)
+    {
+        $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('csdgs')->where('teacher',$id)->get();
+        if ($objectSee) {
+            $subjects = Cycles_Studying_Days_Grades_Subjects::whereIn('id',$objectSee)->with('subjects')->with('grades')->get();
+            return Response::json($subjects, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
