@@ -29,6 +29,7 @@ Route::resource('students', 'StudentsController');
 Route::resource('studentstutor', 'Tutors_StudentsController');
 Route::resource('studyingdays', 'Studying_DaysController');
 Route::resource('subjects', 'SubjectsController');
+Route::resource('subjectsstudents', 'Subjects_StudentsController');
 Route::resource('teachers', 'TeachersController');
 Route::resource('teachersassistance', 'Teachers_AssistanceController');
 Route::resource('tutors', 'TutorsController');
@@ -39,6 +40,8 @@ Route::resource('userstypes', 'Users_TypesController');
 Route::get('grades/{id}/subjects', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjects');
 Route::get('grades/{id}/subjects/{id2}', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjectsId');
 Route::get('subjects/{id}/teachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachers');
+Route::get('subjects/{id}/students', 'Subjects_StudentsController@getSubjectsStudents');
+Route::get('teachers/{id}/subjects', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getTeachersSubjects');
 Route::get('students/{id}/charges', 'ChargesController@getInscriptionsCharges');
 Route::get('tutors/{id}/students', 'TutorsController@getStudents');
 Route::get('studyingdays/{id}/grades', 'Cycles_Studying_DaysController@getGrades');
@@ -72,7 +75,6 @@ Route::post('studyingdaysgrades/signeddown', 'Cycles_Studying_Days_GradesControl
 Route::post('studentstutor/signeddown', 'Tutors_StudentsController@removeStudents');
 Route::post('subjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setGrades_Subjects');
 Route::post('users/{id}/changepassword', 'UsersController@changePassword');
-Route::post('users/signedup', 'Users_StudentsController@setUsers_Students');
 
 Route::post('login', 'AuthenticateController@login');
 Route::get('logout', 'AuthenticateController@logout');
