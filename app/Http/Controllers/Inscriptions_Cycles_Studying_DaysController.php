@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Inscriptions_Cycles_Studying_Days;
-use App\Cycles_Studying_Days;
+use App\Cycles_Studying_Days_Grades;
 use App\Inscriptions;
 use Response;
 use Validator;
@@ -24,10 +24,10 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
     }
     public function getInscriptions($id)
     {
-        $objectSee = Cycles_Studying_Days::find($id);
+        $objectSee = Cycles_Studying_Days_Grades::find($id);
         if ($objectSee) {
             
-            $grade = Inscriptions_Cycles_Studying_Days::select('inscription')->where('cycle_study_day',$objectSee->id)->get();
+            $grade = Inscriptions_Cycles_Studying_Days::select('inscription')->where('csdg',$objectSee->id)->get();
             $grades = Inscriptions::whereIn('id',$grade)->with('students')->get();
             return Response::json($grades, 200);
         
@@ -43,10 +43,10 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
 
     public function getBussyInscriptions_Cycles_Studying_Days()
     {
-        $objectSee = Inscriptions_Cycles_Studying_Days::select('cycle_study_day')->get();
+        $objectSee = Inscriptions_Cycles_Studying_Days::select('csdg')->get();
         if ($objectSee) {
 
-            $objectRet = Cycles_Studying_Days::whereIn('id',$objectSee)->with('cycles')->with('studying_days')->get();
+            $objectRet = Cycles_Studying_Days_Grades::whereIn('id',$objectSee)->with('cycles_studying_days')->get();
 
             return Response::json($objectRet, 200);
         
@@ -79,7 +79,7 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
                 $master = $request->get('master');
                 foreach ($Array as $value)
                 {
-                    $existe = Inscriptions_Cycles_Studying_Days::whereRaw('inscription=? and cycle_study_day=?',[$value['id'],$master])->first();
+                    $existe = Inscriptions_Cycles_Studying_Days::whereRaw('inscription=? and csdg=?',[$value['id'],$master])->first();
                     if(sizeof($existe)<=0){    
                         $registro = new Inscriptions_Cycles_Studying_Days();
                         $registro->inscription       = $value['id'];
@@ -141,7 +141,7 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
                 $studentsId = collect();
                 foreach ($Array as $value)
                 {
-                    $objectDelete = Inscriptions_Cycles_Studying_Days::whereRaw('inscription=? and cycle_study_day=?',[$value['id'],$master])->first();
+                    $objectDelete = Inscriptions_Cycles_Studying_Days::whereRaw('inscription=? and csdg=?',[$value['id'],$master])->first();
                     if(sizeof($objectDelete)>0){    
                         $studentsId->push($objectDelete->id); 
                         Inscriptions_Cycles_Studying_Days::destroy($objectDelete->id);      

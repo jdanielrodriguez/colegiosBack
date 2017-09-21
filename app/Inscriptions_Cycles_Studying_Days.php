@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Inscriptions_Cycles_Studying_Days extends Model
 {
     use SoftDeletes;
-    protected $table = 'inscriptions_cycles_studying_days';
+    protected $table = 'inscriptions_cycles_studying_days_grades';
 }
