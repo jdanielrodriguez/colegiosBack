@@ -38,6 +38,7 @@ Route::resource('users', 'UsersController');
 Route::resource('userstypes', 'Users_TypesController');
 
 Route::get('grades/{id}/subjects', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjects');
+Route::get('grades/{id}/students', 'Cycles_Studying_Days_GradesController@getGradesStudents');
 Route::get('grades/{id}/subjects/{id2}', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjectsId');
 Route::get('subjects/{id}/teachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachers');
 Route::get('subjects/{id}/students', 'Subjects_StudentsController@getSubjectsStudents');
@@ -52,6 +53,7 @@ Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
 Route::get('free/students', 'StudentsController@getFreeStudents');
 Route::get('free/studentinscriptions', 'InscriptionsController@getFreeStudents');
 Route::get('bussy/gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsController@getBussyCycles_Studying_Days_Grades_Subjects');
+Route::get('bussy/gradesstudents', 'Cycles_Studying_Days_GradesController@getBussyStudents_Cycles_Studying_Days_Grades');
 Route::get('bussy/subjectsteachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getBussyCycles_Studying_Days_Grades_Subjects_Teachers');
 Route::get('bussy/charges', 'ChargesController@getBussyCharges');
 Route::get('bussy/studyingdaysgrades', 'Cycles_Studying_Days_GradesController@getBussyCycles_Studying_Days_Grades');

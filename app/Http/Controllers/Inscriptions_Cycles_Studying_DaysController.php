@@ -83,7 +83,7 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
                     if(sizeof($existe)<=0){    
                         $registro = new Inscriptions_Cycles_Studying_Days();
                         $registro->inscription       = $value['id'];
-                        $registro->cycle_study_day         = $master;
+                        $registro->csdg         = $master;
                         
                         $registro->save();
                     }

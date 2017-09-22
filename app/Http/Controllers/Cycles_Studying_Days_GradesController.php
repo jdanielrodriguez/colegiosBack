@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Cycles_Studying_Days_Grades;
 use App\Cycles_Studying_Days;
+use App\Inscriptions;
+use App\Inscriptions_Cycles_Studying_Days;
 use Response;
 use Validator;
 use DB;
@@ -186,7 +188,40 @@ class Cycles_Studying_Days_GradesController extends Controller
             return Response::json($returnData, 404);
         }
     }
+    public function getBussyStudents_Cycles_Studying_Days_Grades()
+    {
+        $objectSee = Inscriptions_Cycles_Studying_Days::select('csdg')->get();
+        if ($objectSee) {
 
+            $objectRet = Cycles_Studying_Days_Grades::whereIn('id',$objectSee)->with('cycles_studying_days')->with('grades')->with('subjects')->get();
+
+            return Response::json($objectRet, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function getGradesStudents($id)
+    {
+        $objectSee = Inscriptions_Cycles_Studying_Days::select('inscription')->where('id',$id)->get();
+        if ($objectSee) {
+            $subjects = Inscriptions::whereIn('id',$objectSee)->with('students')->get();
+            return Response::json($subjects, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Store a newly created resource in storage.
      *
