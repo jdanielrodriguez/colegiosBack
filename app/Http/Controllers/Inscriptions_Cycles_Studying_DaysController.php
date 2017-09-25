@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Inscriptions_Cycles_Studying_Days;
 use App\Cycles_Studying_Days_Grades;
+use App\Cycles_Studying_Days_Grades_Subjects;
+use App\Subjects_Students;
 use App\Inscriptions;
 use Response;
 use Validator;
@@ -86,6 +88,19 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
                         $registro->csdg         = $master;
                         
                         $registro->save();
+                        $materiasId = Cycles_Studying_Days_Grades_Subjects::select('id')->whereRaw('csdg=?',$master)->get();
+                        foreach ($materiasId as $value1) {
+
+                            $registro = new Subjects_Students();
+                            $registro->year = date('Y-m-d');
+                            $registro->cycle_study_day_grade_subject = $value1['id'];
+                            $idStudent=Inscriptions::select('student')->where('id',$value['id'])->first();
+                            $registro->student = $idStudent->student;
+                            $registro->save();
+                            
+                        }
+                        
+                        
                     }
                 }
         
@@ -144,7 +159,13 @@ class Inscriptions_Cycles_Studying_DaysController extends Controller
                     $objectDelete = Inscriptions_Cycles_Studying_Days::whereRaw('inscription=? and csdg=?',[$value['id'],$master])->first();
                     if(sizeof($objectDelete)>0){    
                         $studentsId->push($objectDelete->id); 
-                        Inscriptions_Cycles_Studying_Days::destroy($objectDelete->id);      
+                        Inscriptions_Cycles_Studying_Days::destroy($objectDelete->id); 
+                        $idStudent = Inscriptions::select('student')->where('id',$value['id'])->first();
+                        $materiasId = Cycles_Studying_Days_Grades_Subjects::select('id')->whereRaw('csdg=?',$master)->get();
+                        foreach ($materiasId as $value1) {
+                            $objectDeleteId = Subjects_Students::select('id')->whereRaw('student=? and cycle_study_day_grade_subject=?',[$idStudent->student,$value1['id']])->first();
+                            Subjects_Students::destroy($objectDeleteId->id);                            
+                        }
                     } 
                 }
 
