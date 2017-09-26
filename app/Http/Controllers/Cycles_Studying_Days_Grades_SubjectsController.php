@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use App\Cycles_Studying_Days_Grades_Subjects;
 use App\Cycles_Studying_Days_Grades;
+use App\Subjects_Students;
 use App\Subjects;
+use App\Inscriptions_Cycles_Studying_Days;
+use App\Inscriptions;
 use Response;
 use Validator;
 use Illuminate\Http\Request;
@@ -91,6 +94,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                  DB::beginTransaction();
                  $Array = $request->get('subjects');
                  $master = $request->get('grade');
+                 $saved = collect();
                  foreach ($Array as $value)
                  {
                      $existe = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
@@ -100,13 +104,28 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                          $registro->csdg         = $master;
                          
                          $registro->save();
+                         $saved->push($registro->id);
+                        
                      }
                  }
+                 foreach ($saved as $ids) {
+                    $materiasId = Inscriptions_Cycles_Studying_Days::select('inscription')->whereRaw('csdg=?',$master)->get();
+                    foreach ($materiasId as $value1) {
+                        $registro = new Subjects_Students();
+                        $registro->year = date('Y-m-d');
+                        $registro->cycle_study_day_grade_subject = $ids;
+                        $idStudent=Inscriptions::select('student')->where('id',$value1['inscription'])->first();
+                        $registro->student = $idStudent->student;
+                        $registro->save();
+                        
+                    }
+                 }
+                  
          
                  DB::commit();
                  $returnData = array (
                      'status' => 200,
-                     'message' => "success"
+                     'message' => 'Success'
                  );
                  return Response::json($returnData, 200);
              }
@@ -158,7 +177,17 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                      $objectDelete = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
                      if(sizeof($objectDelete)>0){    
                          $studentsId->push($objectDelete->id); 
-                         Cycles_Studying_Days_Grades_Subjects::destroy($objectDelete->id);      
+                         Cycles_Studying_Days_Grades_Subjects::destroy($objectDelete->id);    
+                         $materiasId = Inscriptions_Cycles_Studying_Days::select('inscription')->whereRaw('csdg=?',$master)->get();
+                         foreach ($materiasId as $value1) {
+                             
+                             $idStudent=Inscriptions::select('student')->where('id',$value1['inscription'])->first();
+                             $objectDeleteId = Subjects_Students::select('id')->whereRaw('student=? and cycle_study_day_grade_subject=?',[$idStudent->student,$objectDelete->id])->first();
+                             Subjects_Students::destroy($objectDeleteId->id);
+                             
+                         }
+                         
+                         
                      } 
                  }
  
