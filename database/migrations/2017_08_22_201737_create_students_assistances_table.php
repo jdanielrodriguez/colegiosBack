@@ -18,6 +18,7 @@ class CreateStudentsAssistancesTable extends Migration
             $table->boolean('assistance')->default(true);
             $table->integer('studied')->default(1);
             $table->integer('state')->default(1);
+            $table->date('assistance_date');
 
             $table->integer('subject_student')->unsigned();
             $table->foreign('subject_student')->references('id')->on('subjects_students')->onDelete('cascade');
