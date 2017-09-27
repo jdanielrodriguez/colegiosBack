@@ -8,5 +8,5 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Students_Assistance extends Model
 {
     use SoftDeletes;
-    protected $table = 'students_assistance';
+    protected $table = 'students_assistances';
 }

@@ -46,7 +46,7 @@ class HomeworksController extends Controller
             'description'   => 'required',
             'date_end'   => 'required',
             'homework_note'   => 'required',
-            'subject_teacher'   => 'required'
+            'subject_student'   => 'required'
         ]);
         if ( $validator->fails() ) {
             $returnData = array (
@@ -91,66 +91,87 @@ class HomeworksController extends Controller
     }
     public function setHomeworks(Request $request)
     {
-        try
-        {
-            if ( $request->get('homeworks') )
+        $validator = Validator::make($request->all(), [
+            'name'          => 'required',
+            'description'   => 'required',
+            'date_end'   => 'required',
+            'homework_note'   => 'required',
+            'students_subjects'   => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try
             {
-                DB::beginTransaction();
-                $homeworkArray = $request->get('homeworks');
-
-               foreach ($homeworkArray as $value)
+                $name = $request->get('name');
+                $description = $request->get('description');
+                $date_end = $request->get('date_end');
+                $homework_note = $request->get('homework_note');
+                if ( $request->get('students_subjects') )
                 {
-                    $registro = new Homeworks();
-                    $registro->name           = $value['name'];
-                    $registro->description    = $value['description'];
-                    $registro->date_end       = $value['date_end'];
-                    $registro->date_begin     = date('Y-m-d');
-                    $registro->subject_teacher= $value['subject_student'];
-                    $registro->homework_note  = $value['homework_note'];
-                    $registro->save();
-
-                    $registro->save();
+                    DB::beginTransaction();
+                    $homeworkArray = $request->get('students_subjects');
+    
+                   foreach ($homeworkArray as $value)
+                    {
+                        $registro = new Homeworks();
+                        $registro->name           = $name;
+                        $registro->description    = $description;
+                        $registro->date_end       = $date_end;
+                        $registro->date_begin     = date('Y-m-d');
+                        $registro->subject_teacher= $value['id'];
+                        $registro->homework_note  = $homework_note;
+                        $registro->save();
+    
+                    }
+                    
+                    DB::commit();
+                    $returnData = array (
+                        'status' => 200,
+                        'message' => "success"
+                    );
+                    return Response::json($returnData, 200);
                 }
-                
-                DB::commit();
-                $returnData = array (
-                    'status' => 200,
-                    'message' => "success"
-                );
-                return Response::json($returnData, 200);
-            }
-            else
+                else
+                {
+                    DB::rollback();
+                    $returnData = array (
+                        'status' => 400,
+                        'message' => 'Invalid Parameters'
+                    );
+                    return Response::json($returnData, 400);
+                }    
+           } catch (\Illuminate\Database\QueryException $e) {
+               DB::rollback();
+               if($e->errorInfo[0] == '01000'){
+                   $errorMessage = "Error Constraint";
+               }  else {
+                   $errorMessage = $e->getMessage();
+               }
+               $returnData = array (
+                   'status' => 505,
+                   'SQLState' => $e->errorInfo[0],
+                   'message' => $errorMessage
+               );
+               return Response::json($returnData, 500);
+           }
+            catch (Exception $e)
             {
                 DB::rollback();
                 $returnData = array (
-                    'status' => 400,
-                    'message' => 'Invalid Parameters'
+                    'status' => 500,
+                    'message' => $e->getMessage()
                 );
-                return Response::json($returnData, 400);
-            }    
-       } catch (\Illuminate\Database\QueryException $e) {
-           DB::rollback();
-           if($e->errorInfo[0] == '01000'){
-               $errorMessage = "Error Constraint";
-           }  else {
-               $errorMessage = $e->getMessage();
-           }
-           $returnData = array (
-               'status' => 505,
-               'SQLState' => $e->errorInfo[0],
-               'message' => $errorMessage
-           );
-           return Response::json($returnData, 500);
-       }
-        catch (Exception $e)
-        {
-            DB::rollback();
-            $returnData = array (
-                'status' => 500,
-                'message' => $e->getMessage()
-            );
-            return Response::json($returnData, 500);
+                return Response::json($returnData, 500);
+            }
         }
+        
     }
 
     public function setHomeworksUpdate(Request $request)
