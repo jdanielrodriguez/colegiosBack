@@ -59,12 +59,12 @@ class HomeworksController extends Controller
         else {
             try {
                 $newObject = new Homeworks();
-                $newObject->name          = $request->get('name');
-                $newObject->description   = $request->get('description');
-                $newObject->finish_date   = $request->get('finish_date');
-                $newObject->begin_date    = date('Y-m-d');
-                $newObject->comment       = $request->get('comment');
-                $newObject->note          = $request->get('note');
+                $newObject->name           = $request->get('name');
+                $newObject->description    = $request->get('description');
+                $newObject->date_end       = $request->get('date_end');
+                $newObject->date_begin     = date('Y-m-d');
+                $newObject->subject_teacher= $request->get('subject_student');
+                $newObject->homework_note  = $request->get('homework_note');
                 $newObject->save();
                 return Response::json($newObject, 200);
             
@@ -101,11 +101,13 @@ class HomeworksController extends Controller
                foreach ($homeworkArray as $value)
                 {
                     $registro = new Homeworks();
-                    $registro->name          = $value['name'];
-                    $registro->description   = $value['description'];
-                    $registro->finish_date   = $value['finish_date'];
-                    $registro->begin_date    = date('Y-m-d');
-                    $registro->note          = $value['note'];
+                    $registro->name           = $value['name'];
+                    $registro->description    = $value['description'];
+                    $registro->date_end       = $value['date_end'];
+                    $registro->date_begin     = date('Y-m-d');
+                    $registro->subject_teacher= $value['subject_student'];
+                    $registro->homework_note  = $value['homework_note'];
+                    $registro->save();
 
                     $registro->save();
                 }
@@ -165,12 +167,14 @@ class HomeworksController extends Controller
                     $objectUpdate = Homeworks::find($value['id']);
                     if ($objectUpdate) {
                         try {
-                            $objectUpdate->state         = $value['state'];
-                            $objectUpdate->name          = $value['name'];
-                            $objectUpdate->description   = $value['description'];
-                            $objectUpdate->finish_date   = $value['finish_date'];
-                            $objectUpdate->comment       = $value['comment'];
-                            $objectUpdate->note          = $value['note'];
+                         
+                            $objectUpdate->state          = $value['state'];
+                            $objectUpdate->name           = $value['name'];
+                            $objectUpdate->description    = $value['description'];
+                            $objectUpdate->date_end       = $value['date_end'];
+                            $objectUpdate->date_begin     = date('Y-m-d');
+                            $objectUpdate->subject_teacher= $value['subject_student'];
+                            $objectUpdate->homework_note  = $value['homework_note'];
 
                             $objectUpdate->save();
 
