@@ -21,10 +21,9 @@ class Subjects_StudentsController extends Controller
     }
     public function getSubjectsStudents($id)
     {
-        $objectSee = Subjects_Students::select('student')->where('cycle_study_day_grade_subject',$id)->get();
+        $objectSee = Subjects_Students::where('cycle_study_day_grade_subject',$id)->with('students')->with('assistance')->with('homework')->get();
         if ($objectSee) {
-            $subjects = Students::whereIn('id',$objectSee)->get();
-            return Response::json($subjects, 200);
+            return Response::json($objectSee, 200);
         
         }
         else {
@@ -38,10 +37,9 @@ class Subjects_StudentsController extends Controller
 
     public function getSubjectStudent($id,$id2)
     {
-        $objectSee = Subjects_Students::select('student')->whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->get();
+        $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->first();
         if ($objectSee) {
-            $subjects = Students::whereIn('id',$objectSee)->first();
-            return Response::json($subjects, 200);
+            return Response::json($objectSee, 200);
         
         }
         else {
