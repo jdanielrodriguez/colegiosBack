@@ -39,33 +39,6 @@ class GradesSeeder extends Seeder
         ]);
 
         DB::table('grades')->insert([
-            'name'              => '1ro Basico',
-            'code'              => '010-01',
-            'correlative'       => 1,
-            'year'              => '2017-02-13',
-            'created_at'        => date('Y-m-d H:m:s'),
-            'updated_at'        => date('Y-m-d H:m:s')
-        ]);
-
-        DB::table('grades')->insert([
-            'name'              => '2do Basico',
-            'code'              => '010-01',
-            'correlative'       => 1,
-            'year'              => '2017-02-13',
-            'created_at'        => date('Y-m-d H:m:s'),
-            'updated_at'        => date('Y-m-d H:m:s')
-        ]);
-
-        DB::table('grades')->insert([
-            'name'              => '1ro Basico',
-            'code'              => '010-01',
-            'correlative'       => 1,
-            'year'              => '2017-02-13',
-            'created_at'        => date('Y-m-d H:m:s'),
-            'updated_at'        => date('Y-m-d H:m:s')
-        ]);
-
-        DB::table('grades')->insert([
             'name'              => '4to Bachillerato',
             'code'              => '003-01',
             'correlative'       => 4,

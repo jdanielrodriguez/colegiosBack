@@ -44,8 +44,9 @@ class HomeworksController extends Controller
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
             'description'   => 'required',
-            'finish_date'   => 'required',
-            'note'   => 'required'
+            'date_end'   => 'required',
+            'homework_note'   => 'required',
+            'subject_teacher'   => 'required'
         ]);
         if ( $validator->fails() ) {
             $returnData = array (
