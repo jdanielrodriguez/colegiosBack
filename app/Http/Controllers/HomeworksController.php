@@ -348,11 +348,12 @@ class HomeworksController extends Controller
         if ($objectUpdate) {
             try {
                 $objectUpdate->state         = $request->get('state', $objectUpdate->state);
-                $objectUpdate->name          = $request->get('name', $objectUpdate->state);
-                $objectUpdate->description   = $request->get('description', $objectUpdate->state);
-                $objectUpdate->finish_date   = $request->get('finish_date', $objectUpdate->state);
-                $objectUpdate->comment       = $request->get('comment', $objectUpdate->state);
-                $objectUpdate->note          = $request->get('note', $objectUpdate->state);
+                $objectUpdate->name          = $request->get('name', $objectUpdate->name);
+                $objectUpdate->description   = $request->get('description', $objectUpdate->description);
+                $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
+                $objectUpdate->student_note  = $request->get('student_note', $objectUpdate->student_note);
+                $objectUpdate->set_date      = date('Y-m-d');
+                $objectUpdate->set_time      = date('h:i:s');
 
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
