@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Homeworks;
-use App\Notes;
+use App\Subjects_Students;
 use Response;
 use Validator;
 use DB;
@@ -20,7 +20,7 @@ class HomeworksController extends Controller
      */
     public function index()
     {
-        return Response::json(Homeworks::all(), 200);
+        return Response::json(Homeworks::groupby('name')->get(), 200);
     }
 
     /**
@@ -288,6 +288,21 @@ class HomeworksController extends Controller
     public function getNoteHomeworks($id)
     {
         $objectSee = Homeworks::where('note',$id)->get();
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function getHomeworks($id){
+        $objectSee = Subjects_Students::where('cycle_study_day_grade_subject',$id)->with('students')->with('assistance')->with('homework')->first();
         if ($objectSee) {
             
             return Response::json($objectSee, 200);
