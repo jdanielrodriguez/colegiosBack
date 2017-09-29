@@ -176,29 +176,32 @@ class HomeworksController extends Controller
 
     public function setHomeworksUpdate(Request $request)
     {
-        try
-        {
-            if ( $request->get('homeworks') )
-            {
+        $validator = Validator::make($request->all(), [
+            'nameid'          => 'required',
+            'dateid'          => 'required',
+            'valueid'          => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            $objectSee = Homeworks::whereRaw('name=? and date_end=? and homework_note=?',[$request->get('nameid'),$request->get('dateid'),$request->get('valueid')])->get();
+            if ($objectSee) {
                 DB::beginTransaction();
-                $homeworksArray = $request->get('homeworks');
-
-               foreach ($homeworksArray as $value)
-                {
-                    $objectUpdate = Homeworks::find($value['id']);
+                foreach ($objectSee as $value){
+                    $objectUpdate = Homeworks::find($value->id);
                     if ($objectUpdate) {
                         try {
-                         
-                            $objectUpdate->state          = $value['state'];
-                            $objectUpdate->name           = $value['name'];
-                            $objectUpdate->description    = $value['description'];
-                            $objectUpdate->date_end       = $value['date_end'];
-                            $objectUpdate->date_begin     = date('Y-m-d');
-                            $objectUpdate->subject_teacher= $value['subject_student'];
-                            $objectUpdate->homework_note  = $value['homework_note'];
-
+                            $objectUpdate->name          = $request->get('name', $objectUpdate->name);
+                            $objectUpdate->description   = $request->get('description', $objectUpdate->description);
+                            $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
+                            $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
                             $objectUpdate->save();
-
                         } catch (Exception $e) {
                             DB::rollback();
                             $returnData = array (
@@ -207,7 +210,15 @@ class HomeworksController extends Controller
                             );
                             return Response::json($returnData, 500);
                         }
-                    }                    
+                    }
+                    else {
+                        DB::rollback();
+                        $returnData = array (
+                            'status' => 407,
+                            'message' => 'No record found'
+                        );
+                        return Response::json($returnData, 407);
+                    }
                 }
                 
                 DB::commit();
@@ -216,25 +227,15 @@ class HomeworksController extends Controller
                     'message' => "success"
                 );
                 return Response::json($returnData, 200);
+            
             }
-            else
-            {
-                DB::rollback();
+            else {
                 $returnData = array (
-                    'status' => 400,
-                    'message' => 'Invalid Parameters'
+                    'status' => 405,
+                    'message' => 'No record found'
                 );
-                return Response::json($returnData, 400);
-            }    
-       }
-        catch (Exception $e)
-        {
-            DB::rollback();
-            $returnData = array (
-                'status' => 500,
-                'message' => $e->getMessage()
-            );
-            return Response::json($returnData, 500);
+                return Response::json($returnData, 405);
+            }
         }
     }
     public function getSujectsHomeworks(Request $request,$id)
@@ -367,6 +368,7 @@ class HomeworksController extends Controller
                 $objectUpdate->description   = $request->get('description', $objectUpdate->description);
                 $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
                 $objectUpdate->student_note  = $request->get('student_note', $objectUpdate->student_note);
+                $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
                 $objectUpdate->set_date      = date('Y-m-d');
                 $objectUpdate->set_time      = date('h:i:s');
 
