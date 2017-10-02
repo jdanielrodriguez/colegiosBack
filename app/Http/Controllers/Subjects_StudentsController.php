@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Subjects_Students;
 use App\Students;
 use Response;
+use PDF;
 use Validator;
 class Subjects_StudentsController extends Controller
 {
@@ -49,6 +50,25 @@ class Subjects_StudentsController extends Controller
             );
             return Response::json($returnData, 404);
         }
+    }
+    public function studentsReport($id,$id2)
+    {
+        $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->first();
+        if ($objectSee) {
+
+            $viewPDF = view('pdf.StudentsWithData', ["student" => $objectSee]);
+            $pdf = PDF::loadHTML($viewPDF);
+            return $pdf->stream('download.pdf');
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+        
     }
     /**
      * Show the form for creating a new resource.

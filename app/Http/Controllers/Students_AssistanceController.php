@@ -8,7 +8,6 @@ use App\Students_Assistance;
 use App\Subjects_Students;
 use Response;
 use Validator;
-use PDF;
 class Students_AssistanceController extends Controller
 {
     /**
@@ -46,12 +45,7 @@ class Students_AssistanceController extends Controller
     {
         //
     }
-    public function studentsReport($id)
-    {
-        $viewPDF = view('pdf.StudentsWithData', ["user" => $objectSee]);
-        $pdf = PDF::loadHTML($viewPDF);
-        return $pdf->stream('download.pdf');
-    }
+    
     /**
      * Store a newly created resource in storage.
      *
