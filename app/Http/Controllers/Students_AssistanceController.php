@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Students_Assistance;
+use App\Subjects_Students;
 use Response;
 use Validator;
+use PDF;
 class Students_AssistanceController extends Controller
 {
     /**
@@ -19,6 +21,22 @@ class Students_AssistanceController extends Controller
         return Response::json(Students_Assistance::all(), 200);
     }
 
+    public function getAssistance($id)
+    {
+        $objectSee = Subjects_Students::where('cycle_study_day_grade_subject',$id)->with('students')->with('assistance')->with('homework')->first();
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -28,7 +46,12 @@ class Students_AssistanceController extends Controller
     {
         //
     }
-
+    public function studentsReport($id)
+    {
+        $viewPDF = view('pdf.StudentsWithData', ["user" => $objectSee]);
+        $pdf = PDF::loadHTML($viewPDF);
+        return $pdf->stream('download.pdf');
+    }
     /**
      * Store a newly created resource in storage.
      *
