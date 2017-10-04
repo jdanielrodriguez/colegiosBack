@@ -70,6 +70,22 @@ class Subjects_StudentsController extends Controller
         }
         
     }
+
+    public function getSubjectsStudentsHomeworks($id)
+    {
+        $subjects = Subjects_Students::where('student',$id)->groupby('student')->with('homework')->with('students')->get();
+        if ($subjects) {
+            return Response::json($subjects, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

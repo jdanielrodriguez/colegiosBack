@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tutors_Students;
+use App\Subjects_Students;
 use Response;
 use Validator;
 use DB;
@@ -159,6 +160,23 @@ class Tutors_StudentsController extends Controller
                 'message' => $e->getMessage()
             );
             return Response::json($returnData, 500);
+        }
+    }
+
+    public function getTutorsStudentsHomeworks($id)
+    {
+        $objectSee = Tutors_Students::select('student')->where('tutor',$id)->get();
+        if ($objectSee) {
+            $subjects = Subjects_Students::whereIn('student',$objectSee)->groupby('student')->with('homework')->with('students')->get();
+            return Response::json($subjects, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
         }
     }
     /**
