@@ -8,6 +8,7 @@ use App\Cycles_Studying_Days_Grades_Subjects_Teachers;
 use App\Cycles_Studying_Days_Grades_Subjects;
 use App\Subjects;
 use App\Teachers;
+use App\Subjects_Students;
 use Response;
 use Validator;
 use DB;
@@ -29,6 +30,23 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
         $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('teacher')->where('csdgs',$id)->get();
         if ($objectSee) {
             $subjects = Teachers::whereIn('id',$objectSee)->get();
+            return Response::json($subjects, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function getGradesSubjectsTeachersHomeworks($id)
+    {
+        $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('csdgs')->where('teacher',$id)->get();
+        if ($objectSee) {
+            $subjects = Subjects_Students::whereIn('cycle_study_day_grade_subject',$objectSee)->groupby('cycle_study_day_grade_subject')->with('homework')->get();
             return Response::json($subjects, 200);
         
         }
