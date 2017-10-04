@@ -16,4 +16,16 @@ class Users extends Authenticatable
     public function types(){
         return $this->hasOne('App\Users_Types','id','type');
     }
+
+    public function tutors(){
+        return $this->hasOne('App\Tutors','id','tutor');
+    }
+
+    public function students(){
+        return $this->hasOne('App\Students','id','student');
+    }
+
+    public function teachers(){
+        return $this->hasOne('App\Teachers','id','teacher');
+    }
 }
