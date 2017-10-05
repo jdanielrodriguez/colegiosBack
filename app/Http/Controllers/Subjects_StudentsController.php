@@ -86,6 +86,39 @@ class Subjects_StudentsController extends Controller
             return Response::json($returnData, 404);
         }
     }
+
+    public function getStudentsSubjects($id)
+    {
+        $objectSee = Subjects_Students::where('student',$id)->with('subjects')->with('homework')->get();
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function getStudentsSubject($id,$id2)
+    {
+        $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id,$id2])->with('subjects')->with('homework')->get();
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
