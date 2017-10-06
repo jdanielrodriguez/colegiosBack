@@ -17,6 +17,8 @@ class CreateHomeworksTable extends Migration
             $table->increments('id');
             $table->string('name')->nullable()->default(null);
             $table->string('description')->nullable()->default(null);
+            $table->string('file')->nullable()->default(null);
+            $table->string('file2')->nullable()->default(null);
             $table->double('homework_note')->default(0);
             $table->double('student_note')->default(0);
             $table->date('date_begin')->nullable()->default(null);
