@@ -89,7 +89,7 @@ class Subjects_StudentsController extends Controller
 
     public function getStudentsSubjects($id)
     {
-        $objectSee = Subjects_Students::where('student',$id)->with('subjects')->with('homework')->get();
+        $objectSee = Subjects_Students::where('student',$id)->with('subjects')->with('homework')->with('students')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
