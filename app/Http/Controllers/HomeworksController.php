@@ -10,6 +10,7 @@ use App\Subjects_Students;
 use Response;
 use Validator;
 use DB;
+use Storage;
 
 class HomeworksController extends Controller
 {
@@ -311,6 +312,50 @@ class HomeworksController extends Controller
         }
         else {
             $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function uploadHomework(Request $request, $id) {
+        $objectUpdate = Homeworks::find($id);
+        if ($objectUpdate) {
+
+            $validator = Validator::make($request->all(), [
+                'avatar'      => 'required|image|mimes:jpeg,png,jpg'
+            ]);
+
+            if ($validator->fails()) {
+                $returnData = array(
+                    'status' => 400,
+                    'message' => 'Invalid Parameters',
+                    'validator' => $validator->messages()->toJson()
+                );
+                return Response::json($returnData, 400);
+            }
+            else {
+                try {
+                    $path = Storage::disk('s3')->put('files', $request->avatar);
+
+                    $objectUpdate->file = Storage::disk('s3')->url($path);
+                    $objectUpdate->save();
+
+                    return Response::json($objectUpdate, 200);
+                }
+                catch (Exception $e) {
+                    $returnData = array(
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                }
+
+            }
+
+            return Response::json($objectUpdate, 200);
+        }
+        else {
+            $returnData = array(
                 'status' => 404,
                 'message' => 'No record found'
             );
