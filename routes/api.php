@@ -76,6 +76,7 @@ Route::post('charges/signeddown', 'ChargesController@removeCharges');
 Route::post('homeworks/signedup', 'HomeworksController@setHomeworks');
 Route::post('homeworks/update', 'HomeworksController@setHomeworksUpdate');
 Route::post('homeworks/upload/{id}', 'HomeworksController@uploadHomework');
+Route::post('users/upload/{id}', 'UsersController@uploadAvatar');
 Route::post('studentstutor/signedup', 'Tutors_StudentsController@setStudents');
 Route::post('studyingdaysgrades/signedup', 'Cycles_Studying_Days_GradesController@setGrades');
 Route::post('gradessubjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setSubjects');
