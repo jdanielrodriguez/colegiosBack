@@ -89,6 +89,7 @@ Route::post('studyingdaysgrades/signeddown', 'Cycles_Studying_Days_GradesControl
 Route::post('studentstutor/signeddown', 'Tutors_StudentsController@removeStudents');
 Route::post('subjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setGrades_Subjects');
 Route::post('users/{id}/changepassword', 'UsersController@changePassword');
+Route::post('users/password/reset', 'UsersController@recoveryPassword');
 
 Route::post('login', 'AuthenticateController@login');
 Route::get('logout', 'AuthenticateController@logout');

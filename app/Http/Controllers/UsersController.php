@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 
 use App\Http\Requests;
 use App\Users;
@@ -10,6 +12,8 @@ use Response;
 use Validator;
 use Hash;
 use Storage;
+use Faker\Factory as Faker;
+
 
 class UsersController extends Controller
 {
@@ -87,6 +91,42 @@ class UsersController extends Controller
                 );
                 return Response::json($returnData, 400);
             }
+        }
+    }
+    public function recoveryPassword(Request $request){
+        $objectUpdate = Users::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+        if ($objectUpdate) {
+            try {
+                $faker = Faker::create();
+                $pass = $faker->password();
+                $objectUpdate->password = bcrypt($pass);
+                
+                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->subject('Contraseña Reestablecida');
+                
+                });
+                
+                $objectUpdate->save();
+                
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
         }
     }
     public function changePassword(Request $request, $id)
