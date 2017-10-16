@@ -69,6 +69,7 @@ Route::get('bussy/charges', 'ChargesController@getBussyCharges');
 Route::get('bussy/studyingdaysgrades', 'Cycles_Studying_Days_GradesController@getBussyCycles_Studying_Days_Grades');
 Route::get('bussy/studyingdaysgrades/inscriptions', 'Inscriptions_Cycles_Studying_DaysController@getBussyInscriptions_Cycles_Studying_Days');
 Route::get('bussy/tutors', 'TutorsController@getTutorBussy');
+Route::get('homeworks/upload/delete/{id}', 'HomeworksController@DeleteHomework');
 
 Route::post('charges/signedup', 'ChargesController@setCharges');
 Route::post('charges/update', 'ChargesController@setChargesUpdate');

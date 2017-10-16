@@ -323,7 +323,7 @@ class HomeworksController extends Controller
         if ($objectUpdate) {
 
             $validator = Validator::make($request->all(), [
-                'avatar'      => 'required|image|mimes:jpeg,png,jpg'
+                'avatar'      => 'required'
             ]);
 
             if ($validator->fails()) {
@@ -339,6 +339,9 @@ class HomeworksController extends Controller
                     $path = Storage::disk('s3')->put('files', $request->avatar);
 
                     $objectUpdate->file = Storage::disk('s3')->url($path);
+                    $objectUpdate->file2 = $request->get('description',null);
+                    $objectUpdate->set_date      = date('Y-m-d');
+                    $objectUpdate->set_time      = date('h:i:s');
                     $objectUpdate->save();
 
                     return Response::json($objectUpdate, 200);
@@ -351,6 +354,37 @@ class HomeworksController extends Controller
                 }
 
             }
+
+            return Response::json($objectUpdate, 200);
+        }
+        else {
+            $returnData = array(
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function DeleteHomework($id) {
+        $objectUpdate = Homeworks::whereRaw('id=?',[$id])->first();
+        if ($objectUpdate) {
+
+             
+                try {
+
+                    $objectUpdate->file = null;
+                    $objectUpdate->save();
+
+                    return Response::json($objectUpdate, 200);
+                }
+                catch (Exception $e) {
+                    $returnData = array(
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                }
+
+            
 
             return Response::json($objectUpdate, 200);
         }
@@ -414,8 +448,7 @@ class HomeworksController extends Controller
                 $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
                 $objectUpdate->student_note  = $request->get('student_note', $objectUpdate->student_note);
                 $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
-                $objectUpdate->set_date      = date('Y-m-d');
-                $objectUpdate->set_time      = date('h:i:s');
+               
 
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
