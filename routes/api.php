@@ -59,6 +59,7 @@ Route::get('studyingdays/{id}/grades', 'Cycles_Studying_DaysController@getGrades
 Route::get('studyingdays/{id}/inscriptions', 'Inscriptions_Cycles_Studying_DaysController@getInscriptions');
 Route::get('studyingdaysgrades/{id}/grades/{id2}', 'Cycles_Studying_Days_GradesController@getGrades');
 Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
+Route::get('students/{id}/notes', 'Subjects_StudentsController@studentsNotes');
 
 Route::get('free/students', 'StudentsController@getFreeStudents');
 Route::get('free/studentinscriptions', 'InscriptionsController@getFreeStudents');

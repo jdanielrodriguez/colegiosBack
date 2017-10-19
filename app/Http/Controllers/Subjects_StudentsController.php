@@ -71,6 +71,30 @@ class Subjects_StudentsController extends Controller
         
     }
 
+    public function studentsNotes($id)
+    {
+        $objectSee = Subjects_Students::whereRaw('student=?',[$id])->with('students')->with('assistance')->with('homework')->with('subjects')->get();
+        if ($objectSee) {
+            return Response::json($objectSee, 200);
+            $returnData = array (
+                'student' => 404,
+                'subjects' => 'No record found'
+            );
+            $viewPDF = view('pdf.StudentsWithData', ["student" => $objectSee]);
+            $pdf = PDF::loadHTML($viewPDF);
+            return $pdf->stream('download.pdf');
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+        
+    }
+
     public function getSubjectsStudentsHomeworks($id)
     {
         $subjects = Subjects_Students::where('student',$id)->groupby('student')->with('homework')->with('students')->get();
