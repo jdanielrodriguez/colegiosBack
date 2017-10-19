@@ -100,6 +100,7 @@ class UsersController extends Controller
                 $faker = Faker::create();
                 $pass = $faker->password();
                 $objectUpdate->password = bcrypt($pass);
+                $objectUpdate->state = 2;
                 
                 Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
@@ -171,6 +172,7 @@ class UsersController extends Controller
                             return Response::json($returnData, 404);
                         }
                         $objectUpdate->password = Hash::make($new_pass);
+                        $objectUpdate->state = 1;
                         $objectUpdate->save();
 
                         return Response::json($objectUpdate, 200);
