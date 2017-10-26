@@ -82,6 +82,7 @@ class ChargesController extends Controller
                 $newObject->quantity           = $request->get('quantity');
                 $newObject->increase           = $request->get('increase');
                 $newObject->idinscription      = $request->get('idinscription');
+                $newObject->description        = $request->get('description');
                 $newObject->save();
                 return Response::json($newObject, 200);
             
@@ -123,6 +124,7 @@ class ChargesController extends Controller
                     $registro->charge_limit  = $value['charge_limit'];
                     $registro->quantity      = $value['quantity'];
                     $registro->increase      = $value['increase'];
+                    $registro->description   = $value['description'];
                     $registro->idinscription = $value['idinscription'];
                     $registro->save();
                 }
