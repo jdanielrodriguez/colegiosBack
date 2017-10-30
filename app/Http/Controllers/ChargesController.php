@@ -170,6 +170,69 @@ class ChargesController extends Controller
         }
     }
 
+    public function setChargesToStudents(Request $request)
+    {
+        try
+        {
+            if ( $request->get('charges') )
+            {
+                DB::beginTransaction();
+                $chargesArray = $request->get('charges');
+
+               foreach ($chargesArray as $value)
+                {
+                    $registro = new Charges();
+                    $registro->tuition       = $value['tuition'];
+                    $registro->inscription   = $value['inscription'];
+                    $registro->charge_limit  = $value['charge_limit'];
+                    $registro->quantity      = $value['quantity'];
+                    $registro->increase      = $value['increase'];
+                    $registro->description   = $value['description'];
+                    $registro->idinscription = $value['idinscription'];
+                    $registro->save();
+                }
+                
+                DB::commit();
+                $returnData = array (
+                    'status' => 200,
+                    'message' => "success"
+                );
+                return Response::json($returnData, 200);
+            }
+            else
+            {
+                DB::rollback();
+                $returnData = array (
+                    'status' => 400,
+                    'message' => 'Invalid Parameters'
+                );
+                return Response::json($returnData, 400);
+            }    
+       } catch (\Illuminate\Database\QueryException $e) {
+           DB::rollback();
+           if($e->errorInfo[0] == '01000'){
+               $errorMessage = "Error Constraint";
+           }  else {
+               $errorMessage = $e->getMessage();
+           }
+           $returnData = array (
+               'status' => 505,
+               'SQLState' => $e->errorInfo[0],
+               'message' => $errorMessage
+           );
+           return Response::json($returnData, 500);
+       }
+        catch (Exception $e)
+        {
+            DB::rollback();
+            $returnData = array (
+                'status' => 500,
+                'message' => $e->getMessage()
+            );
+            return Response::json($returnData, 500);
+        }
+    }
+
     public function setChargesUpdate(Request $request)
     {
         try
