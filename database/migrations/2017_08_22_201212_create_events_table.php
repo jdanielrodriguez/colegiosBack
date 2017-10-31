@@ -21,6 +21,7 @@ class CreateEventsTable extends Migration
             $table->string('comment')->nullable()->default(null);
             $table->string('backColor')->nullable()->default(null);
             $table->string('color')->nullable()->default(null);
+            $table->string('avatar')->nullable()->default(null);
             $table->tinyInteger('state')->default(1);
 
             $table->integer('type')->unsigned();

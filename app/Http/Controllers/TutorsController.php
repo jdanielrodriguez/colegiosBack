@@ -153,6 +153,80 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
+    public function assistanceNotifications(Request $request){
+        $objectUpdate = Users::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+        if ($objectUpdate) {
+            try {
+                $faker = Faker::create();
+                $pass = $faker->password();
+                $objectUpdate->password = bcrypt($pass);
+                $objectUpdate->state = 2;
+                
+                Mail::send('emails.notificationAssistance', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->subject('Contraseña Reestablecida');
+                
+                });
+                
+                $objectUpdate->save();
+                
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function homeworksNotifications(Request $request){
+        $objectUpdate = Users::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+        if ($objectUpdate) {
+            try {
+                $faker = Faker::create();
+                $pass = $faker->password();
+                $objectUpdate->password = bcrypt($pass);
+                $objectUpdate->state = 2;
+                
+                Mail::send('emails.notificationHomeworks', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                            ->subject('Contraseña Reestablecida');
+                
+                });
+                
+                $objectUpdate->save();
+                
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Show the form for editing the specified resource.
      *

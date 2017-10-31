@@ -83,7 +83,50 @@ class EventsController extends Controller
             }
         }
     }
+    public function uploadAvatar(Request $request, $id) {
+        $objectUpdate = Events::find($id);
+        if ($objectUpdate) {
 
+            $validator = Validator::make($request->all(), [
+                'avatar'      => 'required|image|mimes:jpeg,png,jpg'
+            ]);
+
+            if ($validator->fails()) {
+                $returnData = array(
+                    'status' => 400,
+                    'message' => 'Invalid Parameters',
+                    'validator' => $validator->messages()->toJson()
+                );
+                return Response::json($returnData, 400);
+            }
+            else {
+                try {
+                    $path = Storage::disk('s3')->put('events', $request->avatar);
+
+                    $objectUpdate->avatar = Storage::disk('s3')->url($path);
+                    $objectUpdate->save();
+
+                    return Response::json($objectUpdate, 200);
+                }
+                catch (Exception $e) {
+                    $returnData = array(
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                }
+
+            }
+
+            return Response::json($objectUpdate, 200);
+        }
+        else {
+            $returnData = array(
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Display the specified resource.
      *

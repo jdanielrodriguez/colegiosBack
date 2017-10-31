@@ -174,21 +174,21 @@ class ChargesController extends Controller
     {
         try
         {
-            if ( $request->get('charges') )
+            if ( $request->get('inscriptions') )
             {
                 DB::beginTransaction();
-                $chargesArray = $request->get('charges');
+                $inscriptionsArray = $request->get('inscriptions');
 
-               foreach ($chargesArray as $value)
+               foreach ($inscriptionsArray as $value)
                 {
                     $registro = new Charges();
-                    $registro->tuition       = $value['tuition'];
-                    $registro->inscription   = $value['inscription'];
-                    $registro->charge_limit  = $value['charge_limit'];
-                    $registro->quantity      = $value['quantity'];
-                    $registro->increase      = $value['increase'];
-                    $registro->description   = $value['description'];
-                    $registro->idinscription = $value['idinscription'];
+                    $registro->tuition       = $request->get('tuition');
+                    $registro->inscription   = $request->get('inscription');
+                    $registro->charge_limit  = $request->get('charge_limit');
+                    $registro->quantity      = $request->get('quantity');
+                    $registro->increase      = $request->get('increase');
+                    $registro->description   = $request->get('description');
+                    $registro->idinscription = $value['id'];
                     $registro->save();
                 }
                 
