@@ -368,8 +368,6 @@ class HomeworksController extends Controller
     public function DeleteHomework($id) {
         $objectUpdate = Homeworks::whereRaw('id=?',[$id])->first();
         if ($objectUpdate) {
-
-             
                 try {
 
                     $objectUpdate->file = null;
@@ -383,13 +381,34 @@ class HomeworksController extends Controller
                         'message' => $e->getMessage()
                     );
                 }
-
-            
-
             return Response::json($objectUpdate, 200);
         }
         else {
             $returnData = array(
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+    public function getHomeworksFilters(Request $request,$id)
+    {
+        if($request->get('filter')=='entregadas'){
+            $objectSee = Subjects_Students::whereRaw('cycle_study_day_grade_subject=? and set_date!=null',$id)->with('students')->with('assistance')->with('homework')->first();
+        }else
+        if($request->get('filter')=='porentregar'){
+            $objectSee = Subjects_Students::whereRaw('cycle_study_day_grade_subject=? and set_date=null',$id)->with('students')->with('assistance')->with('homework')->first();
+        }else {
+            $objectSee = Subjects_Students::whereRaw('cycle_study_day_grade_subject=?',$id)->with('students')->with('assistance')->with('homework')->first();
+        }
+
+        if ($objectSee) {
+            
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
                 'status' => 404,
                 'message' => 'No record found'
             );
