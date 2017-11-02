@@ -55,10 +55,11 @@ class EventsController extends Controller
         else {
             try {
                 $newObject = new Events();
+                $newObject->title           = $request->get('title');
                 $newObject->description     = $request->get('description');
                 $newObject->finishdate      = $request->get('finishdate');
                 $newObject->type            = $request->get('type');
-                $newObject->begindate      = $request->get('begindate');
+                $newObject->begindate       = $request->get('begindate');
                 $newObject->save();
                 return Response::json($newObject, 200);
             
