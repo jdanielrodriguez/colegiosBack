@@ -22,6 +22,14 @@ class Subjects_Students extends Model
         return $this->hasMany('App\Homeworks','subject_teacher','id');
     }
 
+    public function homeworkAllow(){
+        return $this->hasMany('App\Homeworks','subject_teacher','id')->whereRaw('set_date IS NULL');
+    }
+
+    public function homeworkNotAllow(){
+        return $this->hasMany('App\Homeworks','subject_teacher','id')->whereRaw('set_date IS NOT NULL');
+    }
+
     public function subjects(){
         return $this->hasOne('App\Cycles_Studying_Days_Grades_Subjects','id','cycle_study_day_grade_subject')->with('subjects')->with('grades');
     }
