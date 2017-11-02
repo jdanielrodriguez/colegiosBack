@@ -9,4 +9,8 @@ class Homeworks extends Model
 {
     use SoftDeletes;
     protected $table = 'homeworks';
+
+    public function students(){
+        return $this->hasOne('App\Subjects_Students','id','subject_teacher')->with('students');
+    }
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Tutors_Students;
 use App\Subjects_Students;
+use App\Homeworks;
 use Response;
 use Validator;
 use DB;
@@ -167,8 +168,9 @@ class Tutors_StudentsController extends Controller
     {
         $objectSee = Tutors_Students::select('student')->where('tutor',$id)->get();
         if ($objectSee) {
-            $subjects = Subjects_Students::whereIn('student',$objectSee)->groupby('student')->with('homework')->with('students')->get();
-            return Response::json($subjects, 200);
+            $subjects = Subjects_Students::select('id')->whereIn('student',$objectSee)->get();
+            $objectSee1 = Homeworks::whereIn('subject_teacher',$subjects)->with('students')->get();
+            return Response::json($objectSee1, 200);
         
         }
         else {

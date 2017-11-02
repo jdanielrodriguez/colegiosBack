@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Subjects_Students;
 use App\Students;
+use App\Homeworks;
 use Response;
 use PDF;
 use Validator;
@@ -104,9 +105,10 @@ class Subjects_StudentsController extends Controller
 
     public function getSubjectsStudentsHomeworks($id)
     {
-        $subjects = Subjects_Students::where('student',$id)->groupby('student')->with('homework')->with('students')->get();
+        $subjects = Subjects_Students::select('id')->where('student',$id)->get();
         if ($subjects) {
-            return Response::json($subjects, 200);
+            $objectSee = Homeworks::whereIn('subject_teacher',$subjects)->with('students')->get();
+            return Response::json($objectSee, 200);
         
         }
         else {
