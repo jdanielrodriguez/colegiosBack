@@ -46,7 +46,7 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
     {
         $objectSee = Cycles_Studying_Days_Grades_Subjects_Teachers::select('csdgs')->where('teacher',$id)->get();
         if ($objectSee) {
-            $subjects = Subjects_Students::whereIn('cycle_study_day_grade_subject',$objectSee)->groupby('cycle_study_day_grade_subject')->with('homework')->get();
+            $subjects = Subjects_Students::whereIn('cycle_study_day_grade_subject',$objectSee)->groupby('cycle_study_day_grade_subject')->with('homework')->with('subjects')->get();
             return Response::json($subjects, 200);
         
         }
