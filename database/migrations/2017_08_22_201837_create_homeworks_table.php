@@ -24,6 +24,7 @@ class CreateHomeworksTable extends Migration
             $table->date('date_begin')->nullable()->default(null);
             $table->date('date_end');
             $table->time('time_end')->nullable()->default(null);
+            $table->date('load_date')->nullable()->default(null);
             $table->date('set_date')->nullable()->default(null);
             $table->time('set_time')->nullable()->default(null);
             $table->integer('examen')->default(0);
