@@ -25,6 +25,7 @@ Route::resource('gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsControlle
 Route::resource('homeworks', 'HomeworksController');
 Route::resource('inscriptions', 'InscriptionsController');
 Route::resource('inscriptionsstudyingdays', 'Inscriptions_Cycles_Studying_DaysController');
+Route::resource('notifications', 'NotificationsController');
 Route::resource('students', 'StudentsController');
 Route::resource('studentstutor', 'Tutors_StudentsController');
 Route::resource('studyingdays', 'Studying_DaysController');
@@ -43,8 +44,8 @@ Route::get('grades/{id}/subjects/{id2}', 'Cycles_Studying_Days_Grades_SubjectsCo
 Route::get('subjects/{id}/teachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachers');
 Route::get('students/{id}/homeworks', 'Subjects_StudentsController@getSubjectsStudentsHomeworks');
 Route::get('tutors/{id}/homeworks', 'Tutors_StudentsController@getTutorsStudentsHomeworks');
-Route::get('students/{id}/homeworks/notification', 'TutorsController@homeworksNotifications');
-Route::get('students/{id}/assistance/notification', 'TutorsController@assistanceNotifications');
+Route::get('students/{id}/homeworks/notification/{id2}', 'TutorsController@homeworksNotifications');
+Route::get('students/{id}/assistance/notification/{id2}', 'TutorsController@assistanceNotifications');
 Route::get('teachers/{id}/homeworks', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachersHomeworks');
 Route::get('subjects/{id}/homeworks', 'HomeworksController@getHomeworks');
 Route::get('subjects/{id}/homeworks/filters', 'HomeworksController@getHomeworks');

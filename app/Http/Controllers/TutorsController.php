@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Tutors;
 use App\Students;
 use App\Tutors_Students;
+use App\Notifications;
 use Response;
 use Validator;
 
@@ -153,10 +154,19 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function assistanceNotifications(Request $request){
-        $objectUpdate = Users::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+    public function assistanceNotifications($id,$id2){
+        $objectUpdate = Tutors_Students::whereRaw('student=?',$id)->with('tutorInfo')->with('studentInfo')->first();
         if ($objectUpdate) {
             try {
+                
+                $newObject = new Notifications();
+                $newObject->affected       = $objectUpdate->student;
+                $newObject->receiver        = $objectUpdate->tutor;
+                $newObject->sender         = $id2;
+                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." no asistio el dia de hoy a clases";
+                $newObject->save();
+                return Response::json($objectUpdate, 200);
+                
                 $faker = Faker::create();
                 $pass = $faker->password();
                 $objectUpdate->password = bcrypt($pass);
@@ -190,10 +200,19 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function homeworksNotifications(Request $request){
-        $objectUpdate = Users::whereRaw('email=? or username=?',[$request->get('username'),$request->get('username')])->first();
+    public function homeworksNotifications($id,$id2){
+        $objectUpdate = Tutors_Students::whereRaw('student=?',$id)->with('tutorInfo')->with('studentInfo')->first();
         if ($objectUpdate) {
             try {
+                
+                $newObject = new Notifications();
+                $newObject->affected       = $objectUpdate->student;
+                $newObject->receiver        = $objectUpdate->tutor;
+                $newObject->sender         = $id2;
+                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." entrego una tarea";
+                $newObject->save();
+                return Response::json($objectUpdate, 200);
+                
                 $faker = Faker::create();
                 $pass = $faker->password();
                 $objectUpdate->password = bcrypt($pass);
