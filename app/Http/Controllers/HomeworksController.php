@@ -340,6 +340,7 @@ class HomeworksController extends Controller
 
                     $objectUpdate->file = Storage::disk('s3')->url($path);
                     $objectUpdate->file2 = $request->get('description',null);
+                    $objectUpdate->load_date      = date('Y-m-d');
                     $objectUpdate->set_date      = date('Y-m-d');
                     $objectUpdate->set_time      = date('h:i:s');
                     $objectUpdate->save();
@@ -467,8 +468,7 @@ class HomeworksController extends Controller
                 $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
                 $objectUpdate->student_note  = $request->get('student_note', $objectUpdate->student_note);
                 $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
-               
-
+                $objectUpdate->set_date      = ($objectUpdate->set_date==null)?(date('Y-m-d')):($objectUpdate->set_date);
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
             } catch (\Illuminate\Database\QueryException $e) {

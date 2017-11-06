@@ -18,6 +18,7 @@ class CreateNotificationsTable extends Migration
             $table->string('message');
             $table->integer('acepted')->default(1);
             $table->integer('state')->default(3);
+            $table->timestamp('date')->useCurrent();
             
             $table->integer('affected')->unsigned()->nullable()->default(null);
             $table->foreign('affected')->references('id')->on('students')->onDelete('cascade');

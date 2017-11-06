@@ -154,7 +154,7 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function assistanceNotifications($id,$id2){
+    public function assistanceNotifications($id,$id2,Request $request){
         $objectUpdate = Tutors_Students::whereRaw('student=?',$id)->with('tutorInfo')->with('studentInfo')->first();
         if ($objectUpdate) {
             try {
@@ -163,7 +163,7 @@ class TutorsController extends Controller
                 $newObject->affected       = $objectUpdate->student;
                 $newObject->receiver        = $objectUpdate->tutor;
                 $newObject->sender         = $id2;
-                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." no asistio el dia de hoy a clases";
+                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." no asistio al curso de ".$request->get('name')." el dia de hoy.";
                 $newObject->save();
                 return Response::json($objectUpdate, 200);
                 
@@ -200,7 +200,7 @@ class TutorsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function homeworksNotifications($id,$id2){
+    public function homeworksNotifications($id,$id2,Request $request){
         $objectUpdate = Tutors_Students::whereRaw('student=?',$id)->with('tutorInfo')->with('studentInfo')->first();
         if ($objectUpdate) {
             try {
@@ -209,7 +209,7 @@ class TutorsController extends Controller
                 $newObject->affected       = $objectUpdate->student;
                 $newObject->receiver        = $objectUpdate->tutor;
                 $newObject->sender         = $id2;
-                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." entrego una tarea";
+                $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." entrego la tarea ".$request->get('name')." del curso ".$request->get('subject')." obteniendo una nota de ".$request->get('student_note')."/".$request->get('homework_note')." puntos";
                 $newObject->save();
                 return Response::json($objectUpdate, 200);
                 
