@@ -166,6 +166,8 @@ class TutorsController extends Controller
                 $newObject->affected       = $objectUpdate->student;
                 $newObject->receiver        = $objectUpdate->tutor;
                 $newObject->sender         = $id2;
+                $newObject->type         = 2;
+                $newObject->title         = "Inasistencia de ".$objectUpdate->studentInfo->firstname." en el curso ".$request->get('name');
                 $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." no asistio al curso de ".$request->get('name')." el dia de hoy.";
                 $newObject->save();
                 
@@ -204,6 +206,8 @@ class TutorsController extends Controller
                 $newObject->affected       = $objectUpdate->student;
                 $newObject->receiver        = $objectUpdate->tutor;
                 $newObject->sender         = $id2;
+                $newObject->type         = 1;
+                $newObject->title         = "Entrega de tarea ".$request->get('name')." por ".$objectUpdate->studentInfo->firstname." del curso ".$request->get('subject');
                 $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." entrego la tarea ".$request->get('name')." del curso ".$request->get('subject')." obteniendo una nota de ".$request->get('student_note')."/".$request->get('homework_note')." puntos";
                 $newObject->save();
                 

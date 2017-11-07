@@ -42,7 +42,7 @@ class NotificationsController extends Controller
     }
     public function notificationsByTutors($id)
     {
-        $objectSee = Notifications::whereRaw('receiver=?',$id)->get();
+        $objectSee = Notifications::whereRaw('receiver=?',$id)->with('tutors')->with('students')->with('teachers')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -58,7 +58,7 @@ class NotificationsController extends Controller
 
     public function notificationsByStudents($id)
     {
-        $objectSee = Notifications::whereRaw('affected=?',$id)->get();
+        $objectSee = Notifications::whereRaw('affected=?',$id)->with('tutors')->with('students')->with('teachers')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -100,6 +100,64 @@ class NotificationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function updateByTutors(Request $request, $id)
+    {
+       $objectSee = Notifications::whereRaw('receiver=? and state=3',$id)->get();
+       if ($objectSee) {
+           try {
+               foreach ($objectSee as $value) {
+                $objectUpdate = Notifications::find($value->id);
+                $objectUpdate->state = $request->get('state', $objectUpdate->state);
+                $objectUpdate->save();
+               }
+                
+               return Response::json($objectSee, 200);
+           } catch (Exception $e) {
+               $returnData = array (
+                   'status' => 500,
+                   'message' => $e->getMessage()
+               );
+               return Response::json($returnData, 500);
+           }
+       }
+       else {
+           $returnData = array (
+               'status' => 404,
+               'message' => 'No record found'
+           );
+           return Response::json($returnData, 404);
+       }
+    }
+
+    public function updateByStudents(Request $request, $id)
+    {
+       $objectSee = Notifications::whereRaw('affected=? and state=3',$id)->get();
+       if ($objectSee) {
+           try {
+               foreach ($objectSee as $value) {
+                $objectUpdate = Notifications::find($value->id);
+                $objectUpdate->state = $request->get('state', $objectUpdate->state);
+                $objectUpdate->save();
+               }
+                
+               return Response::json($objectSee, 200);
+           } catch (Exception $e) {
+               $returnData = array (
+                   'status' => 500,
+                   'message' => $e->getMessage()
+               );
+               return Response::json($returnData, 500);
+           }
+       }
+       else {
+           $returnData = array (
+               'status' => 404,
+               'message' => 'No record found'
+           );
+           return Response::json($returnData, 404);
+       }
+    }
+
     public function update(Request $request, $id)
     {
        $objectUpdate = Notifications::find($id);
