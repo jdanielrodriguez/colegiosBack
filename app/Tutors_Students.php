@@ -15,6 +15,6 @@ class Tutors_Students extends Model
     }
 
     public function tutorInfo(){
-        return $this->hasOne('App\Tutors','id','tutor');
+        return $this->hasOne('App\Tutors','id','tutor')->with('user');
     }
 }

@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
+
 use App\Http\Requests;
 use App\Tutors;
 use App\Students;
@@ -165,23 +168,15 @@ class TutorsController extends Controller
                 $newObject->sender         = $id2;
                 $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." no asistio al curso de ".$request->get('name')." el dia de hoy.";
                 $newObject->save();
-                return Response::json($objectUpdate, 200);
                 
-                $faker = Faker::create();
-                $pass = $faker->password();
-                $objectUpdate->password = bcrypt($pass);
-                $objectUpdate->state = 2;
-                
-                Mail::send('emails.notificationAssistance', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                Mail::send('emails.notificationAssistance', ['empresa' => 'FoxyLabs', 'url' => 'http://colegios.foxylabs.xyz', 'nombre' => $objectUpdate->tutorInfo->firstname.' '.$objectUpdate->tutorInfo->lastname, 'estudiante' => $objectUpdate->studentInfo->firstname.' '.$objectUpdate->studentInfo->lastname, 'email' => $objectUpdate->tutorInfo->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname, 'cuerpo' => $newObject->message], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                             ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                            ->to($objectUpdate->tutorInfo->user->email, $objectUpdate->tutorInfo->firstname.' '.$objectUpdate->tutorInfo->lastname)
                             ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->subject('Contraseña Reestablecida');
+                            ->subject('Notificacion de Inasistencia');
                 
                 });
-                
-                $objectUpdate->save();
                 
                 return Response::json($objectUpdate, 200);
             } catch (Exception $e) {
@@ -211,23 +206,15 @@ class TutorsController extends Controller
                 $newObject->sender         = $id2;
                 $newObject->message       = "Su hijo ".$objectUpdate->studentInfo->firstname." entrego la tarea ".$request->get('name')." del curso ".$request->get('subject')." obteniendo una nota de ".$request->get('student_note')."/".$request->get('homework_note')." puntos";
                 $newObject->save();
-                return Response::json($objectUpdate, 200);
                 
-                $faker = Faker::create();
-                $pass = $faker->password();
-                $objectUpdate->password = bcrypt($pass);
-                $objectUpdate->state = 2;
-                
-                Mail::send('emails.notificationHomeworks', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                Mail::send('emails.notificationHomeworks', ['empresa' => 'FoxyLabs', 'url' => 'http://colegios.foxylabs.xyz', 'nombre' => $objectUpdate->tutorInfo->firstname.' '.$objectUpdate->tutorInfo->lastname, 'estudiante' => $objectUpdate->studentInfo->firstname.' '.$objectUpdate->studentInfo->lastname, 'email' => $objectUpdate->tutorInfo->user->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname, 'cuerpo' => $newObject->message], function (Message $message) use ($objectUpdate){
                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                             ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                            ->to($objectUpdate->tutorInfo->user->email, $objectUpdate->tutorInfo->firstname.' '.$objectUpdate->tutorInfo->lastname)
                             ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->subject('Contraseña Reestablecida');
+                            ->subject('Notificacion de Tareas');
                 
                 });
-                
-                $objectUpdate->save();
                 
                 return Response::json($objectUpdate, 200);
             } catch (Exception $e) {
