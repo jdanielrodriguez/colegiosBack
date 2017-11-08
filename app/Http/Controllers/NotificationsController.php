@@ -38,7 +38,40 @@ class NotificationsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title'          => 'required',
+            'message'          => 'required',
+            'affected'          => 'required',
+            'receiver'          => 'required',
+            'sender'          => 'required'
+        ]);
+        if ( $validator->fails() ) {
+            $returnData = array (
+                'status' => 400,
+                'message' => 'Invalid Parameters',
+                'validator' => $validator
+            );
+            return Response::json($returnData, 400);
+        }
+        else {
+            try {
+                $newObject = new Notifications();
+                $newObject->title             = $request->get('title');
+                $newObject->message           = $request->get('message');
+                $newObject->affected          = $request->get('affected');
+                $newObject->receiver          = $request->get('receiver');
+                $newObject->sender            = $request->get('sender');
+                $newObject->save();
+                return Response::json($newObject, 200);
+            
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
     }
     public function notificationsByTutors($id)
     {
