@@ -52,7 +52,7 @@ Route::post('tutors/{id}/notifications', 'NotificationsController@updateByTutors
 Route::get('tutors/{id}/notifications', 'NotificationsController@notificationsByTutors');
 Route::get('teachers/{id}/homeworks', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachersHomeworks');
 Route::get('subjects/{id}/homeworks', 'HomeworksController@getHomeworks');
-Route::get('subjects/{id}/homeworks/filters', 'HomeworksController@getHomeworks');
+Route::get('subjects/{id}/homeworks/filters', 'HomeworksController@getHomeworksFilters');
 Route::get('subjects/{id}/assistance', 'Students_AssistanceController@getAssistance');
 Route::get('subjects/{id}/students', 'Subjects_StudentsController@getSubjectsStudents');
 Route::get('subjects/{id}/students/{id2}', 'Subjects_StudentsController@getSubjectStudent');
