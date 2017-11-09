@@ -91,7 +91,7 @@ class NotificationsController extends Controller
 
     public function notificationsByStudents($id)
     {
-        $objectSee = Notifications::whereRaw('affected=?',$id)->with('tutors')->with('students')->with('teachers')->get();
+        $objectSee = Notifications::whereRaw('affected=? and state>1',$id)->with('tutors')->with('students')->with('teachers')->get();
         if ($objectSee) {
             return Response::json($objectSee, 200);
         
@@ -211,7 +211,7 @@ class NotificationsController extends Controller
                $objectUpdate->state = $request->get('state', $objectUpdate->state);
        
                $objectUpdate->save();
-               return Response::json($request, 200);
+               return Response::json($objectUpdate, 200);
            } catch (Exception $e) {
                $returnData = array (
                    'status' => 500,
