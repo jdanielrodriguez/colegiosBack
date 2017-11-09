@@ -199,7 +199,7 @@ class NotificationsController extends Controller
                $objectUpdate->state = $request->get('state', $objectUpdate->state);
        
                $objectUpdate->save();
-               return Response::json($objectUpdate, 200);
+               return Response::json($request, 200);
            } catch (Exception $e) {
                $returnData = array (
                    'status' => 500,
