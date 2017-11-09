@@ -15,7 +15,7 @@ class CreateStudentsAssistancesTable extends Migration
     {
         Schema::create('students_assistances', function (Blueprint $table) {
             $table->increments('id');
-            $table->boolean('assistance')->default(true);
+            $table->boolean('assistance')->nullable()->default(true);
             $table->integer('studied')->default(1);
             $table->integer('state')->default(1);
             $table->date('assistance_date');

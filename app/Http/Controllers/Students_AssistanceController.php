@@ -22,10 +22,10 @@ class Students_AssistanceController extends Controller
 
     public function getAssistance($id)
     {
-        $objectSee = Subjects_Students::where('cycle_study_day_grade_subject',$id)->with('students')->with('assistance')->with('homework')->first();
+        $objectSee = Subjects_Students::select('id')->where('cycle_study_day_grade_subject',$id)->get();
         if ($objectSee) {
-            
-            return Response::json($objectSee, 200);
+            $objectSee1 = Students_Assistance::whereIn('subject_student',$objectSee)->groupby('assistance_date')->orderby('assistance_date','desc')->get();
+            return Response::json($objectSee1, 200);
         
         }
         else {
@@ -96,7 +96,39 @@ class Students_AssistanceController extends Controller
            }
        }
     }
-
+    public function insertBySubject(Request $request)
+    {
+        $objectFind = Subjects_Students::select('id')->whereRaw('cycle_study_day_grade_subject=?',[$request->get('subject_student')])->get();
+        if ($objectFind) {
+            $objectUpdate = Students_Assistance::whereIn('subject_student',$objectFind)->where('assistance_date',$request->get('assistance_date'))->get();
+            if(count($objectUpdate)==0){
+                try {
+                    foreach ($objectFind as $value) {
+                        $newObject = new Students_Assistance();
+                        $newObject->subject_student            = $value->id;
+                        $newObject->assistance                 = null;
+                        $newObject->assistance_date            = $request->get('assistance_date');
+                        $newObject->save();
+                    }
+                    
+                    return Response::json($objectFind, 200);
+                } catch (Exception $e) {
+                    $returnData = array (
+                        'status' => 500,
+                        'message' => $e->getMessage()
+                    );
+                    return Response::json($returnData, 500);
+                }
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     /**
      * Display the specified resource.
      *
@@ -137,6 +169,71 @@ class Students_AssistanceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    public function updateByDate(Request $request)
+    {
+        $objectUpdate = Students_Assistance::whereRaw('assistance_date=? and subject_student=?',[$request->get('assistance_date'),$request->get('subject_student')])->first();
+        if ($objectUpdate) {
+            try {
+
+                $objectUpdate->assistance = $request->get('assistance', $objectUpdate->assistance);
+        
+                $objectUpdate->save();
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            try {
+                $newObject = new Students_Assistance();
+                $newObject->subject_student            = $request->get('subject_student');
+                $newObject->assistance                 = $request->get('assistance');
+                $newObject->assistance_date            = $request->get('assistance_date');
+                $newObject->save();
+
+                return Response::json($newObject, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+    }
+
+    public function updateBySubject(Request $request)
+    {
+        $objectFind = Subjects_Students::select('id')->whereRaw('cycle_study_day_grade_subject=?',[$request->get('subject_student')])->get();
+        if ($objectFind) {
+            $objectUpdate = Students_Assistance::whereIn('subject_student',$objectFind)->where('assistance_date',$request->get('assistance_date'))->get();
+            try {
+                foreach ($objectUpdate as $value) {
+                    $objectUpdate1 = Students_Assistance::find($value->id);
+                    $objectUpdate1->studied = $request->get('studied', $objectUpdate1->studied);
+                    $objectUpdate1->save();
+                }
+                return Response::json($objectUpdate, 200);
+            } catch (Exception $e) {
+                $returnData = array (
+                    'status' => 500,
+                    'message' => $e->getMessage()
+                );
+                return Response::json($returnData, 500);
+            }
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
     public function update(Request $request, $id)
     {
         $objectUpdate = Students_Assistance::find($id);

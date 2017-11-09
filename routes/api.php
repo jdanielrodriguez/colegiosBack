@@ -98,6 +98,9 @@ Route::post('subjectsteachers/signeddown', 'Cycles_Studying_Days_Grades_Subjects
 Route::post('inscriptionsstudyingdays/signeddown', 'Inscriptions_Cycles_Studying_DaysController@removeInscriptions');
 Route::post('gradessubjects/signeddown', 'Cycles_Studying_Days_Grades_SubjectsController@removeSubjects');
 Route::post('studyingdaysgrades/signeddown', 'Cycles_Studying_Days_GradesController@removeGrades');
+Route::post('studentsassistance/update', 'Students_AssistanceController@updateByDate');
+Route::post('studentsassistance/update/subject', 'Students_AssistanceController@updateBySubject');
+Route::post('studentsassistance/insert/subject', 'Students_AssistanceController@insertBySubject');
 Route::post('studentstutor/signeddown', 'Tutors_StudentsController@removeStudents');
 Route::post('subjects/signedup', 'Cycles_Studying_Days_Grades_SubjectsController@setGrades_Subjects');
 Route::post('users/{id}/changepassword', 'UsersController@changePassword');
