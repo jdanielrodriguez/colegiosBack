@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
+
 use App\Http\Requests;
 use App\Notifications;
+use App\Tutors_Students;
 use Response;
 use Validator;
 
@@ -42,7 +46,6 @@ class NotificationsController extends Controller
             'title'          => 'required',
             'message'          => 'required',
             'affected'          => 'required',
-            'receiver'          => 'required',
             'sender'          => 'required'
         ]);
         if ( $validator->fails() ) {
@@ -55,14 +58,28 @@ class NotificationsController extends Controller
         }
         else {
             try {
-                $newObject = new Notifications();
-                $newObject->title             = $request->get('title');
-                $newObject->message           = $request->get('message');
-                $newObject->affected          = $request->get('affected');
-                $newObject->receiver          = $request->get('receiver');
-                $newObject->sender            = $request->get('sender');
-                $newObject->save();
-                return Response::json($newObject, 200);
+                $objectSee = Tutors_Students::where('student',$request->get('affected'))->with('tutorInfo','studentInfo')->get();
+                if($objectSee){
+                    foreach ($objectSee as $value) {
+                        $newObject = new Notifications();
+                        $newObject->title             = $request->get('title');
+                        $newObject->message           = $request->get('message');
+                        $newObject->affected          = $request->get('affected');
+                        $newObject->receiver          = $value->tutor;
+                        $newObject->sender            = $request->get('sender');
+                        $newObject->save();
+                        Mail::send('emails.notificationAssistance', ['empresa' => 'FoxyLabs', 'url' => 'http://colegios.foxylabs.xyz', 'nombre' => $value->tutorInfo->firstname.' '.$value->tutorInfo->lastname, 'estudiante' => $value->studentInfo->firstname.' '.$value->studentInfo->lastname, 'email' => $value->tutorInfo->email, 'name' => $value->firstname.' '.$value->lastname, 'cuerpo' => $newObject->message], function (Message $message) use ($value){
+                            $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                                    ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                                    ->to($value->tutorInfo->user->email, $value->tutorInfo->firstname.' '.$value->tutorInfo->lastname)
+                                    ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                                    ->subject('Notificacion de Estudiante');
+                        
+                        });
+                    }
+                    return Response::json($objectSee, 200);
+                    
+                }
             
             } catch (Exception $e) {
                 $returnData = array (
