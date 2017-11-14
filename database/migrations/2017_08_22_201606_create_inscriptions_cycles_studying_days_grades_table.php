@@ -16,7 +16,8 @@ class CreateInscriptionsCyclesStudyingDaysGradesTable extends Migration
         Schema::create('inscriptions_cycles_studying_days_grades', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('state')->default(1);
-
+            $table->timestamp('year')->useCurrent();
+            
             $table->integer('csdg')->unsigned();
             $table->foreign('csdg')->references('id')->on('cycles_studying_days_grades')->onDelete('cascade');
             $table->integer('inscription')->unsigned();
