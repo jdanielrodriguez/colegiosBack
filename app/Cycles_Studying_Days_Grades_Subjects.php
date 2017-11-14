@@ -18,4 +18,8 @@ class Cycles_Studying_Days_Grades_Subjects extends Model
     public function grades(){
         return $this->hasOne('App\Cycles_Studying_Days_Grades','id','csdg')->with('cycles_studying_days')->with('grades');
     }
+
+    public function students(){
+        return $this->hasOne('App\Subjects_Students','cycle_study_day_grade_subject','id')->with('students')->with('assistance')->with('homework');
+    }
 }

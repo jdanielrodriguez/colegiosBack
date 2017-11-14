@@ -87,36 +87,26 @@ class Subjects_StudentsController extends Controller
     {
         $objectSee = Inscriptions::select('id')->whereRaw('student=?',[$id])->get();
         $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.date('Y').'%"')->whereIn('inscription',$objectSee)->first();
-        $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('grade=?',[$objectSee->id])->with('grades')->with('cycles_studying_days')->get();
+        $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('grade=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
         
         if ($objectSeeCycles) {
+            $Notes = (object) array("materias" => "", "ciclos" => [] );
             $array = [];
             foreach ($objectSeeCycles as $grade) {
-                $objectSeeCycles = Cycles_Studying_Days_Grades_Subjects::whereRaw('csdg=?',$grade->id)->get();
+                $objectSeeCycles = Cycles_Studying_Days_Grades_Subjects::whereRaw('csdg=?',$grade->id)->with('subjects')->get();
                 $myObject = (object) array("ciclo" => $grade, "materias" => [] );
                 foreach ($objectSeeCycles as $subject) {
                     $objectSeeSubjects = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id,$subject->id])->with('students')->with('assistance')->with('homework')->with('subjects')->first();
                     array_push($myObject->materias,$objectSeeSubjects);
                 }
+                $Notes->materias=$objectSeeCycles;
                 array_push($array,$myObject);
+                $Notes->ciclos = $array;
             }
-            return Response::json($array, 200);
-            $returnData = array (
-                'student' => 404,
-                'subjects' => 'No record found'
-            );
-            
-            $myObject = (object) array("a" => 1, "b" => 2, "c" => [] );
-            $myObject2 = (object) array("x" => 8, "y" => 9, "z" => 10 );
-            $myObject3 = (object) array("e" => 15, "m" => 20, "o" => 30 );
-            
-            $myArray = [$myObject2, $myObject2];
-            
-            $myObject->c = $myArray;
-            array_push($myObject->c, $myObject3);
-            var_dump($myObject->c);
+        // return Response::json($Notes, 200);
+        
 
-            $viewPDF = view('pdf.StudentsWithData', ["student" => $objectSee]);
+            $viewPDF = view('pdf.NotesByStudents', ["materias" => $Notes->materias,"ciclos" => $Notes->ciclos,"student" => $Notes->ciclos[0]->materias[0]]);
             $pdf = PDF::loadHTML($viewPDF);
             return $pdf->stream('download.pdf');
         
