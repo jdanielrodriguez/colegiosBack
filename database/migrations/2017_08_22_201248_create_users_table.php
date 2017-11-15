@@ -20,7 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('firstname')->nullable()->default(null);
             $table->string('lastname')->nullable()->default(null);
-            $table->string('picture')->nullable()->default(null);
+            $table->string('picture')->nullable()->default('https://d30y9cdsu7xlg0.cloudfront.net/png/17241-200.png');
             $table->integer('privileges')->default(1);
             $table->tinyInteger('state')->default(1);
 
