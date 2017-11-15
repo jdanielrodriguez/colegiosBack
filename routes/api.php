@@ -23,6 +23,7 @@ Route::resource('eventstypes', 'Events_TypesController');
 Route::resource('grades', 'GradesController');
 Route::resource('gradessubjects', 'Cycles_Studying_Days_Grades_SubjectsController');
 Route::resource('homeworks', 'HomeworksController');
+Route::resource('recommendations', 'RecommendationsController');
 Route::resource('inscriptions', 'InscriptionsController');
 Route::resource('inscriptionsstudyingdays', 'Inscriptions_Cycles_Studying_DaysController');
 Route::resource('notifications', 'NotificationsController');
@@ -53,6 +54,8 @@ Route::get('tutors/{id}/notifications', 'NotificationsController@notificationsBy
 Route::get('teachers/{id}/homeworks', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachersHomeworks');
 Route::get('subjects/{id}/homeworks', 'HomeworksController@getHomeworks');
 Route::get('subjects/{id}/homeworks/filters', 'HomeworksController@getHomeworksFilters');
+Route::get('subjects/{id}/recommendations', 'RecommendationsController@getRecommendations');
+Route::get('subjects/{id}/recommendations/filters', 'RecommendationsController@getRecommendationsFilters');
 Route::get('subjects/{id}/assistance', 'Students_AssistanceController@getAssistance');
 Route::get('subjects/{id}/students', 'Subjects_StudentsController@getSubjectsStudents');
 Route::get('subjects/{id}/students/{id2}', 'Subjects_StudentsController@getSubjectStudent');
@@ -79,6 +82,7 @@ Route::get('bussy/studyingdaysgrades', 'Cycles_Studying_Days_GradesController@ge
 Route::get('bussy/studyingdaysgrades/inscriptions', 'Inscriptions_Cycles_Studying_DaysController@getBussyInscriptions_Cycles_Studying_Days');
 Route::get('bussy/tutors', 'TutorsController@getTutorBussy');
 Route::get('homeworks/upload/delete/{id}', 'HomeworksController@DeleteHomework');
+Route::get('recommendations/upload/delete/{id}', 'RecommendationsController@DeleteRecommendation');
 
 Route::post('charges/signedup', 'ChargesController@setCharges');
 Route::post('charges/load', 'ChargesController@setChargesToStudents');
@@ -87,6 +91,9 @@ Route::post('charges/signeddown', 'ChargesController@removeCharges');
 Route::post('homeworks/signedup', 'HomeworksController@setHomeworks');
 Route::post('homeworks/update', 'HomeworksController@setHomeworksUpdate');
 Route::post('homeworks/upload/{id}', 'HomeworksController@uploadHomework');
+Route::post('recommendations/signedup', 'RecommendationsController@setRecommendations');
+Route::post('recommendations/update', 'RecommendationsController@setRecommendationsUpdate');
+Route::post('recommendations/upload/{id}', 'RecommendationsController@uploadRecommendation');
 Route::post('users/upload/{id}', 'UsersController@uploadAvatar');
 Route::post('events/upload/{id}', 'EventsController@uploadAvatar');
 Route::post('studentstutor/signedup', 'Tutors_StudentsController@setStudents');

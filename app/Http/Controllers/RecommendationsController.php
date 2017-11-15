@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
-use App\Homeworks;
+use App\Recommendations;
 use App\Subjects_Students;
 use Response;
 use Validator;
@@ -20,7 +20,7 @@ class RecommendationsController extends Controller
      */
     public function index()
     {
-        return Response::json(Homeworks::groupby('name')->get(), 200);
+        return Response::json(Recommendations::groupby('name')->get(), 200);
     }
 
     /**
@@ -44,8 +44,6 @@ class RecommendationsController extends Controller
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
             'description'   => 'required',
-            'date_end'   => 'required',
-            'homework_note'   => 'required',
             'subject_student'   => 'required'
         ]);
         if ( $validator->fails() ) {
@@ -58,13 +56,10 @@ class RecommendationsController extends Controller
         }
         else {
             try {
-                $newObject = new Homeworks();
+                $newObject = new Recommendations();
                 $newObject->name           = $request->get('name');
                 $newObject->description    = $request->get('description');
-                $newObject->date_end       = $request->get('date_end');
-                $newObject->date_begin     = date('Y-m-d');
-                $newObject->subject_teacher= $request->get('subject_student');
-                $newObject->homework_note  = $request->get('homework_note');
+                $newObject->subject_student= $request->get('subject_student');
                 $newObject->save();
                 return Response::json($newObject, 200);
             
@@ -89,13 +84,11 @@ class RecommendationsController extends Controller
             }
         }
     }
-    public function setHomeworks(Request $request)
+    public function setRecommendations(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name'          => 'required',
             'description'   => 'required',
-            'date_end'   => 'required',
-            'homework_note'   => 'required',
             'students_subjects'   => 'required'
         ]);
         if ( $validator->fails() ) {
@@ -111,8 +104,6 @@ class RecommendationsController extends Controller
             {
                 $name = $request->get('name');
                 $description = $request->get('description');
-                $date_end = $request->get('date_end');
-                $homework_note = $request->get('homework_note');
                 if ( $request->get('students_subjects') )
                 {
                     DB::beginTransaction();
@@ -120,13 +111,10 @@ class RecommendationsController extends Controller
     
                    foreach ($homeworkArray as $value)
                     {
-                        $registro = new Homeworks();
+                        $registro = new Recommendations();
                         $registro->name           = $name;
                         $registro->description    = $description;
-                        $registro->date_end       = $date_end;
-                        $registro->date_begin     = date('Y-m-d');
-                        $registro->subject_teacher= $value['id'];
-                        $registro->homework_note  = $homework_note;
+                        $registro->subject_student= $value['id'];
                         $registro->save();
     
                     }
@@ -174,7 +162,7 @@ class RecommendationsController extends Controller
         
     }
 
-    public function setHomeworksUpdate(Request $request)
+    public function setRecommendationsUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'nameid'          => 'required',
@@ -190,17 +178,15 @@ class RecommendationsController extends Controller
             return Response::json($returnData, 400);
         }
         else {
-            $objectSee = Homeworks::whereRaw('name=? and date_end=? and homework_note=?',[$request->get('nameid'),$request->get('dateid'),$request->get('valueid')])->get();
+            $objectSee = Recommendations::whereRaw('name=?',[$request->get('nameid')])->get();
             if ($objectSee) {
                 DB::beginTransaction();
                 foreach ($objectSee as $value){
-                    $objectUpdate = Homeworks::find($value->id);
+                    $objectUpdate = Recommendations::find($value->id);
                     if ($objectUpdate) {
                         try {
                             $objectUpdate->name          = $request->get('name', $objectUpdate->name);
                             $objectUpdate->description   = $request->get('description', $objectUpdate->description);
-                            $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
-                            $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
                             $objectUpdate->save();
                         } catch (Exception $e) {
                             DB::rollback();
@@ -238,7 +224,7 @@ class RecommendationsController extends Controller
             }
         }
     }
-    public function getSujectsHomeworks(Request $request,$id)
+    public function getSujectsRecommendations(Request $request,$id)
     {
         if($request->get('cycle'))
         {
@@ -249,8 +235,8 @@ class RecommendationsController extends Controller
             $objectSee = Notes::select('id')->where('subject',$id)->get();
         }
         if ($objectSee) {
-            $Homeworks = Homeworks::whereIn('note',$objectSee)->get();
-            return Response::json($Homeworks, 200);
+            $Recommendations = Recommendations::whereIn('note',$objectSee)->get();
+            return Response::json($Recommendations, 200);
         
         }
         else {
@@ -262,7 +248,7 @@ class RecommendationsController extends Controller
         }
     }
 
-    public function getInscriptionsHomeworks(Request $request,$id)
+    public function getInscriptionsRecommendations(Request $request,$id)
     {
         if($request->get('cycle'))
         {
@@ -273,8 +259,8 @@ class RecommendationsController extends Controller
             $objectSee = Notes::select('id')->where('inscription',$id)->get();
         }
         if ($objectSee) {
-            $Homeworks = Homeworks::whereIn('note',$objectSee)->get();
-            return Response::json($Homeworks, 200);
+            $Recommendations = Recommendations::whereIn('note',$objectSee)->get();
+            return Response::json($Recommendations, 200);
         
         }
         else {
@@ -286,9 +272,9 @@ class RecommendationsController extends Controller
         }
     }
 
-    public function getNoteHomeworks($id)
+    public function getNoteRecommendations($id)
     {
-        $objectSee = Homeworks::where('note',$id)->get();
+        $objectSee = Recommendations::where('note',$id)->get();
         if ($objectSee) {
             
             return Response::json($objectSee, 200);
@@ -302,7 +288,7 @@ class RecommendationsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function getHomeworks($id){
+    public function getRecommendations($id){
         $objectSee = Subjects_Students::where('cycle_study_day_grade_subject',$id)->with('students')->with('assistance')->with('homework')->first();
         if ($objectSee) {
             
@@ -317,8 +303,8 @@ class RecommendationsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function uploadHomework(Request $request, $id) {
-        $objectUpdate = Homeworks::find($id);
+    public function uploadRecommendation(Request $request, $id) {
+        $objectUpdate = Recommendations::find($id);
         if ($objectUpdate) {
 
             $validator = Validator::make($request->all(), [
@@ -339,9 +325,6 @@ class RecommendationsController extends Controller
 
                     $objectUpdate->file = Storage::disk('s3')->url($path);
                     $objectUpdate->file2 = $request->get('description',null);
-                    $objectUpdate->load_date      = date('Y-m-d');
-                    $objectUpdate->set_date      = date('Y-m-d');
-                    $objectUpdate->set_time      = date('h:i:s');
                     $objectUpdate->save();
 
                     return Response::json($objectUpdate, 200);
@@ -365,8 +348,8 @@ class RecommendationsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function DeleteHomework($id) {
-        $objectUpdate = Homeworks::whereRaw('id=?',[$id])->first();
+    public function DeleteRecommendation($id) {
+        $objectUpdate = Recommendations::whereRaw('id=?',[$id])->first();
         if ($objectUpdate) {
                 try {
 
@@ -391,7 +374,7 @@ class RecommendationsController extends Controller
             return Response::json($returnData, 404);
         }
     }
-    public function getHomeworksFilters(Request $request,$id)
+    public function getRecommendationsFilters(Request $request,$id)
     {
         if($request->get('filter')=='entregadas'){
             $objectSee = Subjects_Students::whereRaw('cycle_study_day_grade_subject=? and set_date!=null',$id)->with('students')->with('assistance')->with('homework')->first();
@@ -423,7 +406,7 @@ class RecommendationsController extends Controller
      */
     public function show($id)
     {
-        $objectSee = Homeworks::find($id);
+        $objectSee = Recommendations::find($id);
         if ($objectSee) {
             
             return Response::json($objectSee, 200);
@@ -458,16 +441,12 @@ class RecommendationsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $objectUpdate = Homeworks::find($id);
+        $objectUpdate = Recommendations::find($id);
         if ($objectUpdate) {
             try {
                 $objectUpdate->state         = $request->get('state', $objectUpdate->state);
                 $objectUpdate->name          = $request->get('name', $objectUpdate->name);
                 $objectUpdate->description   = $request->get('description', $objectUpdate->description);
-                $objectUpdate->date_end      = $request->get('date_end', $objectUpdate->date_end);
-                $objectUpdate->student_note  = $request->get('student_note', $objectUpdate->student_note);
-                $objectUpdate->homework_note = $request->get('homework_note', $objectUpdate->homework_note);
-                $objectUpdate->set_date      = ($objectUpdate->set_date==null)?(date('Y-m-d')):($objectUpdate->set_date);
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
             } catch (\Illuminate\Database\QueryException $e) {
@@ -507,10 +486,10 @@ class RecommendationsController extends Controller
      */
     public function destroy($id)
     {
-        $objectDelete = Homeworks::find($id);
+        $objectDelete = Recommendations::find($id);
         if ($objectDelete) {
             try {
-                Homeworks::destroy($id);
+                Recommendations::destroy($id);
                 return Response::json($objectDelete, 200);
             } catch (Exception $e) {
                 $returnData = array (
