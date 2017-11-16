@@ -33,4 +33,8 @@ class Subjects_Students extends Model
     public function subjects(){
         return $this->hasOne('App\Cycles_Studying_Days_Grades_Subjects','id','cycle_study_day_grade_subject')->with('subjects')->with('grades');
     }
+
+    public function recommendations(){
+        return $this->hasMany('App\Recommendations','subject_student','id');
+    }
 }

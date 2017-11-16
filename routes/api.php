@@ -44,6 +44,7 @@ Route::get('grades/{id}/students', 'Cycles_Studying_Days_GradesController@getGra
 Route::get('grades/{id}/subjects/{id2}', 'Cycles_Studying_Days_Grades_SubjectsController@getGradesSubjectsId');
 Route::get('subjects/{id}/teachers', 'Cycles_Studying_Days_Grades_Subjects_TeachersController@getGradesSubjectsTeachers');
 Route::get('students/{id}/homeworks', 'Subjects_StudentsController@getSubjectsStudentsHomeworks');
+Route::get('students/{id}/recommendations', 'Subjects_StudentsController@getSubjectsStudentsRecommendations');
 Route::get('tutors/{id}/homeworks', 'Tutors_StudentsController@getTutorsStudentsHomeworks');
 Route::get('students/{id}/homeworks/notification/{id2}', 'TutorsController@homeworksNotifications');
 Route::get('students/{id}/assistance/notification/{id2}', 'TutorsController@assistanceNotifications');

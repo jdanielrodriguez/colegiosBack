@@ -7,6 +7,7 @@ use App\Http\Requests;
 use App\Subjects_Students;
 use App\Students;
 use App\Homeworks;
+use App\Recommendations;
 use App\Inscriptions_Cycles_Studying_Days;
 use App\Inscriptions;
 use App\Cycles_Studying_Days_Grades;
@@ -126,6 +127,23 @@ class Subjects_StudentsController extends Controller
         $subjects = Subjects_Students::select('id')->where('student',$id)->get();
         if ($subjects) {
             $objectSee = Homeworks::whereIn('subject_teacher',$subjects)->with('students')->get();
+            return Response::json($objectSee, 200);
+        
+        }
+        else {
+            $returnData = array (
+                'status' => 404,
+                'message' => 'No record found'
+            );
+            return Response::json($returnData, 404);
+        }
+    }
+
+    public function getSubjectsStudentsRecommendations($id)
+    {
+        $subjects = Subjects_Students::select('id')->where('student',$id)->get();
+        if ($subjects) {
+            $objectSee = Recommendations::whereIn('subject_student',$subjects)->with('students')->get();
             return Response::json($objectSee, 200);
         
         }
