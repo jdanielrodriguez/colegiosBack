@@ -108,7 +108,7 @@ class RecommendationsController extends Controller
                 {
                     DB::beginTransaction();
                     $homeworkArray = $request->get('students_subjects');
-    
+                    $ids = [];
                    foreach ($homeworkArray as $value)
                     {
                         $registro = new Recommendations();
@@ -116,7 +116,7 @@ class RecommendationsController extends Controller
                         $registro->description    = $description;
                         $registro->subject_student= $value['id'];
                         $registro->save();
-    
+                        array_push($ids,["id"=>$registro->id]);
                     }
                     
                     DB::commit();
@@ -124,7 +124,7 @@ class RecommendationsController extends Controller
                         'status' => 200,
                         'message' => "success"
                     );
-                    return Response::json($returnData, 200);
+                    return Response::json($ids, 200);
                 }
                 else
                 {
