@@ -45,12 +45,12 @@ class Subjects_StudentsController extends Controller
     public function getSubjectStudent(Request $request,$id,$id2)
     {
         if($request->get('filter')=='entregadas'){
-            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homeworkNotAllow')->first();
+            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homeworkNotAllow')->with('recommendations')->first();
         }else
         if($request->get('filter')=='porentregar'){
-            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homeworkAllow')->first();
+            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homeworkAllow')->with('recommendations')->first();
         }else {
-            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->first();
+            $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->with('recommendations')->first();
         }
         if ($objectSee) {
             return Response::json($objectSee, 200);
