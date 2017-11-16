@@ -32,7 +32,7 @@ class TutorsController extends Controller
         if ($objectSee) {
             
             $student = Tutors_Students::select('student')->where('tutor',$objectSee->id)->get();
-            $students = Students::whereIn('id',$student)->get();
+            $students = Students::whereIn('id',$student)->with('user')->get();
             return Response::json($students, 200);
         
         }

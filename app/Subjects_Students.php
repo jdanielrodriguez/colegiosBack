@@ -11,7 +11,7 @@ class Subjects_Students extends Model
     protected $table = 'subjects_students';
 
     public function students(){
-        return $this->hasOne('App\Students','id','student');
+        return $this->hasOne('App\Students','id','student')->with('user');
     }
 
     public function assistance(){
