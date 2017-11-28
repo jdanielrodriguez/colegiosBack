@@ -8,6 +8,8 @@ use App\Http\Requests;
 use App\Events;
 use Response;
 use Validator;
+use Hash;
+use Storage;
 
 class EventsController extends Controller
 {
@@ -176,10 +178,10 @@ class EventsController extends Controller
             try {
                 $objectUpdate->state           = $request->get('state', $objectUpdate->state);
                 $objectUpdate->comment         = $request->get('comment', $objectUpdate->comment);
-                $objectUpdate->description     = $request->get('description', $objectUpdate->column);
-                $objectUpdate->finishdate      = $request->get('finishdate', $objectUpdate->column);
-                $objectUpdate->type            = $request->get('type', $objectUpdate->column);
-                $objectUpdate->begingdate      = $request->get('begingdate', $objectUpdate->column);
+                $objectUpdate->description     = $request->get('description', $objectUpdate->description);
+                $objectUpdate->finishdate      = $request->get('finishdate', $objectUpdate->finishdate);
+                $objectUpdate->type            = $request->get('type', $objectUpdate->type);
+                $objectUpdate->begindate      = $request->get('begindate', $objectUpdate->begindate);
 
                 $objectUpdate->save();
                 return Response::json($objectUpdate, 200);
