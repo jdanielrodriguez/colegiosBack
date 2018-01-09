@@ -87,9 +87,9 @@ class Subjects_StudentsController extends Controller
     public function studentsNotes($id)
     {
         $objectSee = Inscriptions::select('id')->whereRaw('student=?',[$id])->get();
-        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.date('Y').'%"')->whereIn('inscription',$objectSee)->first();
+        $date = date('Y')-1;
+        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.($date).'%"')->whereIn('inscription',$objectSee)->first();
         $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('grade=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
-        
         if ($objectSeeCycles) {
             $Notes = (object) array("materias" => "", "ciclos" => [] );
             $array = [];
