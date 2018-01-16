@@ -3,11 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
+use Illuminate\Support\Facades\Mail;
 
 use App\Http\Requests;
 use App\Teachers;
+use App\Users;
 use Response;
 use Validator;
+use DB;
+use Hash;
 
 class TeachersController extends Controller
 {
@@ -55,6 +60,7 @@ class TeachersController extends Controller
         }
         else {
                 try {
+                    DB::beginTransaction();
                     $newObject = new Teachers();
                     $newObject->firstname       = $request->get('firstname');
                     $newObject->lastname        = $request->get('lastname');
@@ -62,9 +68,53 @@ class TeachersController extends Controller
                     $newObject->cellphone       = $request->get('cellphone');
                     $newObject->phone           = $request->get('phone');
                     $newObject->save();
+                    if($request->get('username') && $request->get('email')){
+                        $email = $request->get('email');
+                        $email_exists  = Users::whereRaw("email = ?", $email)->count();
+                        $user = $request->get('username');
+                        $user_exists  = Users::whereRaw("username = ?", $user)->count();
+                        if($email_exists == 0 && $user_exists == 0){
+                            try {
+                                $newObjectT = new Users();
+                                $newObjectT->username         = $request->get('username');
+                                $newObjectT->password         = Hash::make($request->get('password'));
+                                $newObjectT->email            = $request->get('email');
+                                $newObjectT->firstname        = $request->get('firstname');
+                                $newObjectT->lastname         = $request->get('lastname');
+                                $newObjectT->type             = 3;
+                                $newObjectT->tutor            = $newObject->id;
+                                Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
+                                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                                            ->to("".$newObjectT->email, $newObjectT->firstname.' '.$newObjectT->lastname)
+                                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                                            ->subject('Usuario Creado');
+                                
+                                });
+                                $newObjectT->save();
+                                DB::commit();
+                            } catch (Exception $e) {
+                                DB::rollback();
+                                $returnData = array (
+                                    'status' => 500,
+                                    'message' => $e->getMessage()
+                                );
+                                return Response::json($returnData, 500);
+                            }
+                        } else {
+                            DB::rollback();
+                            $returnData = array(
+                                'status' => 400,
+                                'message' => 'User already exists',
+                                'validator' => $validator->messages()->toJson()
+                            );
+                            return Response::json($returnData, 400);
+                        }
+                    }
                     return Response::json($newObject, 200);
                 
                 } catch (Exception $e) {
+                    DB::rollback();
                     $returnData = array (
                         'status' => 500,
                         'message' => $e->getMessage()

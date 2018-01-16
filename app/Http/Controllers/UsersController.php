@@ -65,6 +65,7 @@ class UsersController extends Controller
             $user_exists  = Users::whereRaw("username = ?", $user)->count();
             if($email_exists == 0 && $user_exists == 0){
                 try {
+                    DB::beginTransaction();
                     $newObject = new Users();
                     $newObject->username         = $request->get('username');
                     $newObject->password         = Hash::make($request->get('password'));
@@ -73,10 +74,20 @@ class UsersController extends Controller
                     $newObject->student            = $request->get('student');
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
+                    Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->firstname.' '.$newObject->lastname,], function (Message $message) use ($newObject){
+                        $message->from('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->sender('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->to("".$newObject->email, $newObject->firstname.' '.$newObject->lastname)
+                                ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
+                                ->subject('Usuario Creado');
+                    
+                    });
                     $newObject->save();
+                    DB::commit();
                     return Response::json($newObject, 200);
                 
                 } catch (Exception $e) {
+                    DB::rollback();
                     $returnData = array (
                         'status' => 500,
                         'message' => $e->getMessage()
@@ -84,6 +95,7 @@ class UsersController extends Controller
                     return Response::json($returnData, 500);
                 }
             } else {
+                DB::rollback();
                 $returnData = array(
                     'status' => 400,
                     'message' => 'User already exists',
