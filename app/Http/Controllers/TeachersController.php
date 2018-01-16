@@ -82,7 +82,7 @@ class TeachersController extends Controller
                                 $newObjectT->firstname        = $request->get('firstname');
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
-                                $newObjectT->tutor            = $newObject->id;
+                                $newObjectT->teacher          = $newObject->id;
                                 Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
                                     $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                                             ->sender('info@foxylabs.gt', 'Info FoxyLabs')
