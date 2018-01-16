@@ -12,6 +12,7 @@ use Response;
 use Validator;
 use Hash;
 use Storage;
+use DB;
 use Faker\Factory as Faker;
 
 
