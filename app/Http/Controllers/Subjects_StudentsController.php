@@ -86,11 +86,11 @@ class Subjects_StudentsController extends Controller
 
     public function studentsNotes($id)
     {
-        $objectSee = Inscriptions::select('id')->whereRaw('student=?',[$id])->get();
         $date = date('Y');
-        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.($date).'%" or year like "'.($date-1).'%"')->whereIn('inscription',$objectSee)->first();
+        $objectSee1 = Inscriptions::select('id')->whereRaw('student=? and created_at like "'.($date).'%"',[$id])->first();
+        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.($date).'%" or year like "'.($date-1).'%"')->where('inscription',$objectSee1)->first();
         $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('grade=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
-        //  return Response::json($objectSee, 200);
+         return Response::json($objectSee1, 200);
         if ($objectSeeCycles) {
             $Notes = (object) array("materias" => "", "ciclos" => [] );
             $array = [];
@@ -98,14 +98,15 @@ class Subjects_StudentsController extends Controller
                 $objectSeeCycles = Cycles_Studying_Days_Grades_Subjects::whereRaw('csdg=?',$grade->id)->with('subjects')->get();
                 $myObject = (object) array("ciclo" => $grade, "materias" => [] );
                 foreach ($objectSeeCycles as $subject) {
-                    $objectSeeSubjects = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id,$subject->id])->with('students')->with('assistance')->with('homework')->with('subjects')->first();
+                    $objectSeeSubjects = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id,$subject->id])->with('students')->with('assistance')->with('homework')->with('subjects')->get();
                     array_push($myObject->materias,$objectSeeSubjects);
+                    //   return Response::json($objectSeeSubjects, 200);
                 }
-                $Notes->materias=$objectSeeCycles;
+                $Notes->materias = $objectSeeCycles;
                 array_push($array,$myObject);
                 $Notes->ciclos = $array;
             }
-         return Response::json($Notes, 200);
+         return Response::json($objectSeeCycles, 200);
         
 
             $viewPDF = view('pdf.NotesByStudents', ["materias" => $Notes->materias,"ciclos" => $Notes->ciclos,"student" => $Notes->ciclos[0]->materias[0]]);
