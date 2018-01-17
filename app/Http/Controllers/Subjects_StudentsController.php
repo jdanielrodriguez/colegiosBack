@@ -88,9 +88,9 @@ class Subjects_StudentsController extends Controller
     {
         $date = date('Y');
         $objectSee1 = Inscriptions::select('id')->whereRaw('student=? and created_at like "'.($date).'%"',[$id])->first();
-        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('year like "'.($date).'%" or year like "'.($date-1).'%"')->where('inscription',$objectSee1)->first();
-        $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('grade=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
-         return Response::json($objectSee1, 200);
+        $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('(year like "'.($date).'%" or year like "'.($date-1).'%")')->where('inscription',$objectSee1->id)->first();
+        $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('id=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
+        //  return Response::json($objectSeeCycles, 200);
         if ($objectSeeCycles) {
             $Notes = (object) array("materias" => "", "ciclos" => [] );
             $array = [];
@@ -106,10 +106,10 @@ class Subjects_StudentsController extends Controller
                 array_push($array,$myObject);
                 $Notes->ciclos = $array;
             }
-         return Response::json($objectSeeCycles, 200);
+        //  return Response::json($Notes->ciclos, 200);
         
 
-            $viewPDF = view('pdf.NotesByStudents', ["materias" => $Notes->materias,"ciclos" => $Notes->ciclos,"student" => $Notes->ciclos[0]->materias[0]]);
+            $viewPDF = view('pdf.NotesByStudents', ["materias" => $Notes->materias,"ciclos" => $Notes->ciclos,"student" => $Notes->ciclos[0]->materias[0][0]]);
             $pdf = PDF::loadHTML($viewPDF);
             return $pdf->stream('download.pdf');
         

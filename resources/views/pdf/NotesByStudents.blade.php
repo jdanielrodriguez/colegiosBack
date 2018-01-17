@@ -107,7 +107,7 @@ $nota=0;
 							<tr>
 								<td>{!! $materia->subjects["name"] !!}</td>
 								@foreach($ciclos as $ciclo)
-									@foreach($ciclo->materias as $ciclo_materia)
+									@foreach($ciclo->materias[0] as $ciclo_materia)
 										@if ($ciclo_materia->subjects->subjects["name"] == $materia->subjects["name"])
 											<?php $nota=0; ?>
 											@foreach($ciclo_materia->homework as $tarea)
