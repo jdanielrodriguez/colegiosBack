@@ -92,7 +92,6 @@ class TeachersController extends Controller
                                 
                                 });
                                 $newObjectT->save();
-                                DB::commit();
                             } catch (Exception $e) {
                                 DB::rollback();
                                 $returnData = array (
@@ -111,6 +110,7 @@ class TeachersController extends Controller
                             return Response::json($returnData, 400);
                         }
                     }
+                    DB::commit();
                     return Response::json($newObject, 200);
                 
                 } catch (Exception $e) {
