@@ -105,7 +105,7 @@ class Subjects_StudentsController extends Controller
                 array_push($array,$myObject);
                 $Notes->ciclos = $array;
             }
-        // return Response::json($Notes, 200);
+         return Response::json($Notes, 200);
         
 
             $viewPDF = view('pdf.NotesByStudents', ["materias" => $Notes->materias,"ciclos" => $Notes->ciclos,"student" => $Notes->ciclos[0]->materias[0]]);
