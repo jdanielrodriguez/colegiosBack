@@ -75,6 +75,7 @@ class UsersController extends Controller
                     $newObject->student            = $request->get('student');
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
+                    $newObject->state            = 2;
                     Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->firstname.' '.$newObject->lastname,], function (Message $message) use ($newObject){
                         $message->from('info@foxylabs.gt', 'Info FoxyLabs')
                                 ->sender('info@foxylabs.gt', 'Info FoxyLabs')
