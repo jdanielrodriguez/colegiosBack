@@ -147,7 +147,7 @@ class UsersController extends Controller
     public function changePassword(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'new_pass' => 'required|min:3|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/',
+            'new_pass' => 'required|min:3',//|regex:/^.*(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!-,:-@]).*$/
             'old_pass'      => 'required'
         ]);
 
