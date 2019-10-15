@@ -35,8 +35,8 @@ class UsersSeeder extends Seeder
         ]);
         
         DB::table('users')->insert([
-            'username'          => 'Deaniell',
-            'password'          => bcrypt('1234'),
+            'username'          => 'alumno',
+            'password'          => bcrypt('alumno'),
             'email'             => 'deaniell@foxy.com',
             'firstname'         => 'Daniel',
             'lastname'          => 'Rodriguez',
@@ -51,8 +51,8 @@ class UsersSeeder extends Seeder
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
         DB::table('users')->insert([
-            'username'          => 'alex',
-            'password'          => bcrypt('1234'),
+            'username'          => 'maestro',
+            'password'          => bcrypt('maestro'),
             'email'             => 'alex@foxy.com',
             'firstname'         => 'Mario',
             'lastname'          => 'Estrada',
@@ -67,11 +67,11 @@ class UsersSeeder extends Seeder
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
         DB::table('users')->insert([
-            'username'          => 'guille',
-            'password'          => bcrypt('1234'),
+            'username'          => 'admin',
+            'password'          => bcrypt('admin'),
             'email'             => 'guillermo@foxy.com',
-            'firstname'         => null,
-            'lastname'          => null,
+            'firstname'         => "Admin",
+            'lastname'          => "Sys",
             'privileges'        => 3,
             'state'             => 1,
             'student'           => null,
@@ -83,8 +83,8 @@ class UsersSeeder extends Seeder
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
         DB::table('users')->insert([
-            'username'          => 'andre',
-            'password'          => bcrypt('1234'),
+            'username'          => 'alumno2',
+            'password'          => bcrypt('alumno2'),
             'email'             => 'tofel@foxy.com',
             'firstname'         => 'Andre',
             'lastname'          => 'Juarez',
@@ -99,8 +99,8 @@ class UsersSeeder extends Seeder
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
         DB::table('users')->insert([
-            'username'          => 'ale',
-            'password'          => bcrypt('1234'),
+            'username'          => 'padre',
+            'password'          => bcrypt('padre'),
             'email'             => 'ale@foxy.com',
             'firstname'         => 'Sergio',
             'lastname'          => 'Pineda',
