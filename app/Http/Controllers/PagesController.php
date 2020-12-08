@@ -55,40 +55,6 @@ class PagesController extends Controller
         }
     }
     
-    public function getThisByUser($id)
-    {
-        $objectSee = Pages::where('app','=',$id)->with('users')->get();
-        if ($objectSee) {
-    
-            return Response::json($objectSee, 200);
-    
-        }
-        else {
-            $returnData = array (
-                'status' => 404,
-                'message' => 'No record found'
-            );
-            return Response::json($returnData, 404);
-        }
-    }
-    
-    public function getThisByClient($id)
-    {
-        $objectSee = Pages::where('app','=',$id)->with('users')->get();
-        if ($objectSee) {
-    
-            return Response::json($objectSee, 200);
-    
-        }
-        else {
-            $returnData = array (
-                'status' => 404,
-                'message' => 'No record found'
-            );
-            return Response::json($returnData, 404);
-        }
-    }
-    
     /**
     * Show the form for creating a new resource.
     *
