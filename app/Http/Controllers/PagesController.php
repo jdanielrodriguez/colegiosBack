@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Books;
 use App\Pages;
+use Storage;
 use Response;
 use Validator;
 class PagesController extends Controller
@@ -102,7 +103,7 @@ class PagesController extends Controller
         }
     }
     
-    public function uploadAvatar(Request $request, $id)
+    public function uploadAvatar(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'avatar'      => 'required|image|mimes:jpeg,png,jpg'
@@ -120,11 +121,12 @@ class PagesController extends Controller
             try {
     
                 $path = Storage::disk('s3')->put($request->carpeta, $request->avatar);
-    
-                $objectUpdate->picture = Storage::disk('s3')->url($path);
-                $objectUpdate->save();
-    
-                return Response::json($objectUpdate, 200);
+                $picture = Storage::disk('s3')->url($path);
+                $returnData = array(
+                    'status' => 200,
+                    'url' => $picture
+                );
+                return Response::json($returnData, 200);
     
             }
             catch (Exception $e) {

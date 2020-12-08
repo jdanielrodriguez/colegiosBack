@@ -54,13 +54,12 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
-
         's3' => [
             'driver' => 's3',
-            'key' => 'AKIAJ4JRR4IYMVODSWGA',
-            'secret' => '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',
+            'key' => 'AKIAQORX4KVQ2EPCRUVR',
+            'secret' => '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',
             'region' => 'us-west-2',
-            'bucket' => 'bcolegios',
+            'bucket' => 'digibooksback',
         ],
 
     ],

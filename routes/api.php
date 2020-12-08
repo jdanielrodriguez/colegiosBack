@@ -89,6 +89,7 @@ Route::get('bussy/tutors', 'TutorsController@getTutorBussy');
 Route::get('homeworks/upload/delete/{id}', 'HomeworksController@DeleteHomework');
 Route::get('recommendations/upload/delete/{id}', 'RecommendationsController@DeleteRecommendation');
 
+Route::post('pages/upload', 'PagesController@uploadAvatar');
 Route::post('charges/signedup', 'ChargesController@setCharges');
 Route::post('charges/load', 'ChargesController@setChargesToStudents');
 Route::post('charges/update', 'ChargesController@setChargesUpdate');

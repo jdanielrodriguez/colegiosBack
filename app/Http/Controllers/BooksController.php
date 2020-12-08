@@ -112,7 +112,7 @@ class BooksController extends Controller
     {
         $objectSee = Books::find($id);
         if ($objectSee) {
-            $objectSee->column;
+            $objectSee->pages;
             return Response::json($objectSee, 200);
     
         }
