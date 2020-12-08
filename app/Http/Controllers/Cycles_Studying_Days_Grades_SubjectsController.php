@@ -98,7 +98,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                  foreach ($Array as $value)
                  {
                      $existe = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
-                     if(sizeof($existe)<=0){    
+                     if(count($existe)<=0){    
                          $registro = new Cycles_Studying_Days_Grades_Subjects();
                          $registro->subject       = $value['id'];
                          $registro->csdg         = $master;
@@ -175,7 +175,7 @@ class Cycles_Studying_Days_Grades_SubjectsController extends Controller
                  foreach ($Array as $value)
                  {
                      $objectDelete = Cycles_Studying_Days_Grades_Subjects::whereRaw('subject=? and csdg=?',[$value['id'],$master])->first();
-                     if(sizeof($objectDelete)>0){    
+                     if(count($objectDelete)>0){    
                          $studentsId->push($objectDelete->id); 
                          Cycles_Studying_Days_Grades_Subjects::destroy($objectDelete->id);    
                          $materiasId = Inscriptions_Cycles_Studying_Days::select('inscription')->whereRaw('csdg=?',$master)->get();

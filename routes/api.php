@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::resource('books', 'BooksController');
 Route::resource('charges', 'ChargesController');
 Route::resource('cycles', 'CyclesController');
 Route::resource('cyclesstudyingdays', 'Cycles_Studying_DaysController');
@@ -27,6 +28,7 @@ Route::resource('recommendations', 'RecommendationsController');
 Route::resource('inscriptions', 'InscriptionsController');
 Route::resource('inscriptionsstudyingdays', 'Inscriptions_Cycles_Studying_DaysController');
 Route::resource('notifications', 'NotificationsController');
+Route::resource('pages', 'PageController');
 Route::resource('students', 'StudentsController');
 Route::resource('studentstutor', 'Tutors_StudentsController');
 Route::resource('studyingdays', 'Studying_DaysController');
@@ -71,6 +73,8 @@ Route::get('studyingdays/{id}/grades', 'Cycles_Studying_DaysController@getGrades
 Route::get('studyingdays/{id}/inscriptions', 'Inscriptions_Cycles_Studying_DaysController@getInscriptions');
 Route::get('studyingdaysgrades/{id}/grades/{id2}', 'Cycles_Studying_Days_GradesController@getGrades');
 Route::get('studentstutors/pertuto', 'TutorsController@getTutorStudents');
+Route::get('filter/{id}/books/{state}', "BooksController@getThisByFilter");
+Route::get('filter/{id}/pages/{state}', "PagesController@getThisByFilter");
 Route::get('students/{id}/notes', 'Subjects_StudentsController@studentsNotes');
 
 Route::get('free/students', 'StudentsController@getFreeStudents');

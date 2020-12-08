@@ -303,7 +303,7 @@ class ChargesController extends Controller
                foreach ($chargesArray as $value)
                 {
                     $objectDelete = Charges::whereRaw('idinscription=?',[$value['idinscription']])->first();
-                    if(sizeof($objectDelete)>0){    
+                    if(count($objectDelete)>0){    
                         Charges::destroy($objectDelete->id);      
                     } 
                     

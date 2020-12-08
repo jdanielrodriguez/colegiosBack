@@ -33,6 +33,9 @@ class CreateHomeworksTable extends Migration
             $table->integer('subject_teacher')->unsigned();
             $table->foreign('subject_teacher')->references('id')->on('subjects_students')->onDelete('cascade');
 
+            $table->integer('page')->unsigned();
+            $table->foreign('page')->references('id')->on('pages')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });

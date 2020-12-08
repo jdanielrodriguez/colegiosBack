@@ -55,7 +55,7 @@ class Tutors_StudentsController extends Controller
                 foreach ($Array as $value)
                 {
                     $existe = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$tutor])->first();
-                    if(sizeof($existe)<=0){    
+                    if(count($existe)<=0){    
                         $registro = new Tutors_Students();
                         $registro->student       = $value['id'];
                         $registro->tutor       = $tutor;
@@ -117,7 +117,7 @@ class Tutors_StudentsController extends Controller
                 foreach ($Array as $value)
                 {
                     $objectDelete = Tutors_Students::whereRaw('student=? and tutor=?',[$value['id'],$tutor])->first();
-                    if(sizeof($objectDelete)>0){    
+                    if(count($objectDelete)>0){    
                         $studentsId->push($objectDelete->id); 
                         Tutors_Students::destroy($objectDelete->id);      
                     } 

@@ -108,7 +108,7 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
                 foreach ($Array as $value)
                 {
                     $existe = Cycles_Studying_Days_Grades_Subjects_Teachers::whereRaw('teacher=? and csdgs=?',[$value['id'],$master])->first();
-                    if(sizeof($existe)<=0){    
+                    if(count($existe)<=0){    
                         $registro = new Cycles_Studying_Days_Grades_Subjects_Teachers();
                         $registro->teacher       = $value['id'];
                         $registro->csdgs         = $master;
@@ -170,7 +170,7 @@ class Cycles_Studying_Days_Grades_Subjects_TeachersController extends Controller
                 foreach ($Array as $value)
                 {
                     $objectDelete = Cycles_Studying_Days_Grades_Subjects_Teachers::whereRaw('teacher=? and csdgs=?',[$value['id'],$master])->first();
-                    if(sizeof($objectDelete)>0){    
+                    if(count($objectDelete)>0){    
                         $studentsId->push($objectDelete->id); 
                         Cycles_Studying_Days_Grades_Subjects_Teachers::destroy($objectDelete->id);      
                     } 
