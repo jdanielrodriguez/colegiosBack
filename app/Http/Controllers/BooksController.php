@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Books;
+use App\Pages;
 use Response;
 use Validator;
 class BooksController extends Controller
@@ -16,7 +17,7 @@ class BooksController extends Controller
     */
     public function index()
     {
-        return Response::json(Books::all(), 200);
+        return Response::json(Books::with('pages')->get(), 200);
     }
     
     public function getThisByFilter(Request $request, $id,$state)
@@ -74,8 +75,9 @@ class BooksController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            ''          => 'required',
-            ''          => 'required',
+            'titulo'          => 'required',
+            'imagenes'          => 'required',
+            'file'          => 'required',
         ]);
         if ( $validator->fails() ) {
             $returnData = array (
@@ -88,8 +90,22 @@ class BooksController extends Controller
         else {
             try {
                 $newObject = new Books();
-                $newObject->column            = $request->get('column');
+                $newObject->name            = $request->get('titulo');
+                $newObject->description     = $request->get('titulo');
+                $newObject->file            = $request->get('file');
+                $newObject->state           = 1;
                 $newObject->save();
+                foreach ($request->get('imagenes') as $key => $value) {
+                    $newPage = new Pages();
+                    $newPage->name            = $request->get('titulo');
+                    $newPage->description     = $request->get('titulo');
+                    $newPage->file            = $value['url'];
+                    $newPage->page            = $key + 1;
+                    $newPage->state           = 1;
+                    $newPage->book            = $newObject->id;
+                    $newPage->save();
+                }
+                $newObject->pages;
                 return Response::json($newObject, 200);
     
             } catch (Exception $e) {
