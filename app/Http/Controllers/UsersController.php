@@ -76,14 +76,17 @@ class UsersController extends Controller
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
                     $newObject->state            = 2;
-                    Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->firstname.' '.$newObject->lastname,], function (Message $message) use ($newObject){
-                        $message->from('info@foxylabs.gt', 'Info FoxyLabs')
-                                ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                                ->to("".$newObject->email, $newObject->firstname.' '.$newObject->lastname)
-                                ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                                ->subject('Usuario Creado');
-                    
-                    });
+                    try {
+                        Mail::send('emails.confirm', ['empresa' => 'TeachTics', 'url' => 'https://TeachTics.gt', 'app' => 'teachtics@josedanielrodriguez.com', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->firstname.' '.$newObject->lastname,], function (Message $message) use ($newObject){
+                            $message->from('teachtics@josedanielrodriguez.com', 'Info TeachTics')
+                                    ->sender('teachtics@josedanielrodriguez.com', 'Info TeachTics')
+                                    ->to("".$newObject->email, $newObject->firstname.' '.$newObject->lastname)
+                                    ->replyTo('teachtics@josedanielrodriguez.com', 'Info TeachTics')
+                                    ->subject('Usuario Creado');
+                        });
+                    } 
+                    catch (Swift_TransportException $e) {
+                    }
                     $newObject->save();
                     DB::commit();
                     return Response::json($newObject, 200);
@@ -116,14 +119,17 @@ class UsersController extends Controller
                 $objectUpdate->password = bcrypt($pass);
                 $objectUpdate->state = 2;
                 
-                Mail::send('emails.recovery', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
-                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
-                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                            ->subject('Contraseña Reestablecida');
-                
-                });
+                try {
+                    Mail::send('emails.recovery', ['empresa' => 'TechTics', 'url' => 'https://TechTics.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+                        $message->from('teachtics@josedanielrodriguez.com', 'Info TechTics')
+                                ->sender('teachtics@josedanielrodriguez.com', 'Info TechTics')
+                                ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
+                                ->replyTo('teachtics@josedanielrodriguez.com', 'Info TechTics')
+                                ->subject('Contraseña Reestablecida');
+                    });
+                } 
+                catch (Swift_TransportException $e) {
+                }
                 
                 $objectUpdate->save();
                 
