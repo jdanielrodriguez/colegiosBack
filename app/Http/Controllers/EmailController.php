@@ -14,7 +14,7 @@ use Hash;
 
 class EmailController extends Controller
 {
-    public function sendConfirmUser($newObjectT, Request $request){
+    public static function sendConfirmUser($newObjectT, Request $request){
         try {
             Mail::send('emails.confirm', ['empresa' => 'TeachTics', 'url' => 'https://TeachTics.gt', 'app' => 'teachtics@josedanielrodriguez.com', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
                 $message->from('teachtics@josedanielrodriguez.com', 'Info TeachTics')
