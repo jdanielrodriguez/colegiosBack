@@ -10,7 +10,6 @@ use App\Http\Requests;
 use App\Tutors;
 use App\Students;
 use App\Users;
-use App\Email;
 use App\Tutors_Students;
 use App\Notifications;
 use Response;
@@ -106,7 +105,7 @@ class TutorsController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->tutor            = $newObject->id;
-                                Email::sendConfirmUser($newObjectT, $request);
+                                EmailsController::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                                 DB::commit();
                             } catch (Exception $e) {

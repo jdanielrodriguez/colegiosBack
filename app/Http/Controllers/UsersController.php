@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Requests;
 use App\Users;
-use App\Email;
 use Response;
 use Validator;
 use Hash;
@@ -77,7 +76,7 @@ class UsersController extends Controller
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
                     $newObject->state            = 2;
-                    Email::sendConfirmUser($newObject, $request);
+                    EmailsController::sendConfirmUser($newObjectT, $request);
                     $newObject->save();
                     DB::commit();
                     return Response::json($newObject, 200);

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests;
 use App\Teachers;
 use App\Users;
-use App\Email;
 use Response;
 use Validator;
 use DB;
@@ -84,7 +83,7 @@ class TeachersController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->teacher          = $newObject->id;
-                                Email::sendConfirmUser($newObjectT, $request);
+                                EmailsController::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                             } catch (Exception $e) {
                                 DB::rollback();
