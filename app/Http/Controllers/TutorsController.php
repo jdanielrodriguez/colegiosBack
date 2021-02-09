@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Tutors;
 use App\Students;
 use App\Users;
+use App\Email;
 use App\Tutors_Students;
 use App\Notifications;
 use Response;
@@ -105,14 +106,7 @@ class TutorsController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->tutor            = $newObject->id;
-                                Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
-                                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->to("".$newObjectT->email, $newObjectT->firstname.' '.$newObjectT->lastname)
-                                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->subject('Usuario Creado');
-                                
-                                });
+                                Email::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                                 DB::commit();
                             } catch (Exception $e) {

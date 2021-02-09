@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Http\Requests;
 use App\Teachers;
 use App\Users;
+use App\Email;
 use Response;
 use Validator;
 use DB;
@@ -83,14 +84,7 @@ class TeachersController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->teacher          = $newObject->id;
-                                Mail::send('emails.confirm', ['empresa' => 'FoxyLabs', 'url' => 'https://foxylabs.gt', 'app' => 'http://erpfoxy.foxylabs.xyz', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
-                                    $message->from('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->sender('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->to("".$newObjectT->email, $newObjectT->firstname.' '.$newObjectT->lastname)
-                                            ->replyTo('info@foxylabs.gt', 'Info FoxyLabs')
-                                            ->subject('Usuario Creado');
-                                
-                                });
+                                Email::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                             } catch (Exception $e) {
                                 DB::rollback();

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Http\Requests;
 use App\Users;
+use App\Email;
 use Response;
 use Validator;
 use Hash;
@@ -76,17 +77,7 @@ class UsersController extends Controller
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
                     $newObject->state            = 2;
-                    try {
-                        Mail::send('emails.confirm', ['empresa' => 'TeachTics', 'url' => 'https://TeachTics.gt', 'app' => 'teachtics@josedanielrodriguez.com', 'password' => $request->get('password'), 'username' => $newObject->username, 'email' => $newObject->email, 'name' => $newObject->firstname.' '.$newObject->lastname,], function (Message $message) use ($newObject){
-                            $message->from('teachtics@josedanielrodriguez.com', 'Info TeachTics')
-                                    ->sender('teachtics@josedanielrodriguez.com', 'Info TeachTics')
-                                    ->to("".$newObject->email, $newObject->firstname.' '.$newObject->lastname)
-                                    ->replyTo('teachtics@josedanielrodriguez.com', 'Info TeachTics')
-                                    ->subject('Usuario Creado');
-                        });
-                    } 
-                    catch (Swift_TransportException $e) {
-                    }
+                    Email::sendConfirmUser($newObject, $request);
                     $newObject->save();
                     DB::commit();
                     return Response::json($newObject, 200);
