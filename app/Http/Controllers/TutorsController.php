@@ -105,7 +105,7 @@ class TutorsController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->tutor            = $newObject->id;
-                                EmailsController::sendConfirmUser($newObjectT, $request);
+                                EmailController::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                                 DB::commit();
                             } catch (Exception $e) {

@@ -83,7 +83,7 @@ class TeachersController extends Controller
                                 $newObjectT->lastname         = $request->get('lastname');
                                 $newObjectT->type             = 3;
                                 $newObjectT->teacher          = $newObject->id;
-                                EmailsController::sendConfirmUser($newObjectT, $request);
+                                EmailController::sendConfirmUser($newObjectT, $request);
                                 $newObjectT->save();
                             } catch (Exception $e) {
                                 DB::rollback();

@@ -76,7 +76,7 @@ class UsersController extends Controller
                     $newObject->teacher            = $request->get('teacher');
                     $newObject->tutor            = $request->get('tutor');
                     $newObject->state            = 2;
-                    EmailsController::sendConfirmUser($newObjectT, $request);
+                    EmailController::sendConfirmUser($newObjectT, $request);
                     $newObject->save();
                     DB::commit();
                     return Response::json($newObject, 200);
