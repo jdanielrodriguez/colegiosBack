@@ -36,7 +36,6 @@ class CreateHomeworksTable extends Migration
             $table->integer('page')->unsigned();
             $table->foreign('page')->references('id')->on('pages')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

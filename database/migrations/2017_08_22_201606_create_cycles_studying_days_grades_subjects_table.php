@@ -22,7 +22,6 @@ class CreateCyclesStudyingDaysGradesSubjectsTable extends Migration
             $table->integer('subject')->unsigned();
             $table->foreign('subject')->references('id')->on('subjects')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

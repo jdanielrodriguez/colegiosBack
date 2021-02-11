@@ -35,7 +35,6 @@ class CreateUsersTable extends Migration
             $table->foreign('type')->references('id')->on('users_types')->onDelete('cascade');
 
             $table->rememberToken();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -23,7 +23,6 @@ class CreateStudentsAssistancesTable extends Migration
             $table->integer('subject_student')->unsigned();
             $table->foreign('subject_student')->references('id')->on('subjects_students')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

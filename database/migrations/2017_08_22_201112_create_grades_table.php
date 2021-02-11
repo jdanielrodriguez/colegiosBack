@@ -20,7 +20,6 @@ class CreateGradesTable extends Migration
             $table->string('correlative');
             $table->date('year');
             $table->tinyInteger('state')->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

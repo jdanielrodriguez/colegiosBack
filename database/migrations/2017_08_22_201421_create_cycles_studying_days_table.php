@@ -27,7 +27,6 @@ class CreateCyclesStudyingDaysTable extends Migration
             $table->integer('study_day')->unsigned();
             $table->foreign('study_day')->references('id')->on('studying_days')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

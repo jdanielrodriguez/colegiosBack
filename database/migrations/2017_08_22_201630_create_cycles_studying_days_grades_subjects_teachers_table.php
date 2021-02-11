@@ -22,7 +22,6 @@ class CreateCyclesStudyingDaysGradesSubjectsTeachersTable extends Migration
             $table->integer('teacher')->unsigned();
             $table->foreign('teacher')->references('id')->on('teachers')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -23,7 +23,6 @@ class CreateInscriptionsCyclesStudyingDaysGradesTable extends Migration
             $table->integer('inscription')->unsigned();
             $table->foreign('inscription')->references('id')->on('inscriptions')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

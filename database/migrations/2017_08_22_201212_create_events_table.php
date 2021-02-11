@@ -28,7 +28,6 @@ class CreateEventsTable extends Migration
             $table->integer('type')->unsigned();
             $table->foreign('type')->references('id')->on('events_types')->onDelete('cascade');
             
-            $table->softDeletes();
             $table->timestamps();
         });
     }

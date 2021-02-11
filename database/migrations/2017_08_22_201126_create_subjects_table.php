@@ -21,7 +21,6 @@ class CreateSubjectsTable extends Migration
             $table->double('tuiton')->nullable()->default(0);
             $table->double('extra')->nullable()->default(0);
             $table->tinyInteger('state')->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -22,7 +22,6 @@ class CreateTeachersAssistancesTable extends Migration
             $table->integer('csdgst')->unsigned();
             $table->foreign('csdgst')->references('id')->on('cycles_studying_days_grades_subjects_teachers')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

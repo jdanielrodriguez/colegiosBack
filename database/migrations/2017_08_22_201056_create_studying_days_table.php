@@ -18,7 +18,6 @@ class CreateStudyingDaysTable extends Migration
             $table->string('description');
             $table->string('code')->nullable()->default(null);
             $table->tinyInteger('state')->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

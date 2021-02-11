@@ -17,7 +17,6 @@ class CreateEventsTypesTable extends Migration
             $table->increments('id');
             $table->string('description');
             $table->tinyInteger('state')->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

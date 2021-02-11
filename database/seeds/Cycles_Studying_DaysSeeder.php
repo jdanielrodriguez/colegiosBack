@@ -20,7 +20,6 @@ class Cycles_Studying_DaysSeeder extends Seeder
             'tuiton'       => 500,
             'cycle'       => 1,
             'study_day'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -33,7 +32,6 @@ class Cycles_Studying_DaysSeeder extends Seeder
             'tuiton'       => 500,
             'cycle'       => 2,
             'study_day'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -46,7 +44,6 @@ class Cycles_Studying_DaysSeeder extends Seeder
             'tuiton'       => 500,
             'cycle'       => 3,
             'study_day'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -59,7 +56,6 @@ class Cycles_Studying_DaysSeeder extends Seeder
             'tuiton'       => 500,
             'cycle'       => 4,
             'study_day'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);

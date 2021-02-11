@@ -46,7 +46,6 @@ class UsersSeeder extends Seeder
             'teacher'           => null,
             'tutor'             => null,
             'type'              => 1,
-            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
@@ -62,7 +61,6 @@ class UsersSeeder extends Seeder
             'teacher'           => 2,
             'tutor'             => null,
             'type'              => 2,
-            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
@@ -78,7 +76,6 @@ class UsersSeeder extends Seeder
             'teacher'           => null,
             'tutor'             => null,
             'type'              => 4,
-            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
@@ -94,7 +91,6 @@ class UsersSeeder extends Seeder
             'teacher'           => 4,
             'tutor'             => null,
             'type'              => 1,
-            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
         ]);
@@ -110,7 +106,6 @@ class UsersSeeder extends Seeder
             'teacher'           => null,
             'tutor'             => 1,
             'type'              => 3,
-            'deleted_at'        => null,
             'created_at'        => date('Y-m-d H:m:s'),
             'updated_at'        => date('Y-m-d H:m:s')
             ]);

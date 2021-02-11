@@ -29,7 +29,6 @@ class CreateNotificationsTable extends Migration
             $table->integer('sender')->unsigned()->nullable()->default(null);
             $table->foreign('sender')->references('id')->on('teachers')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
             
         });

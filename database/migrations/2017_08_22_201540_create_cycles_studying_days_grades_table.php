@@ -22,7 +22,6 @@ class CreateCyclesStudyingDaysGradesTable extends Migration
             $table->integer('grade')->unsigned();
             $table->foreign('grade')->references('id')->on('grades')->onDelete('cascade');
 
-            $table->softDeletes();
             $table->timestamps();
         });
     }

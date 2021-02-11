@@ -20,7 +20,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -33,7 +32,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -46,7 +44,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -59,7 +56,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -72,7 +68,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -85,7 +80,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -98,7 +92,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -111,7 +104,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -124,7 +116,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -137,7 +128,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -150,7 +140,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -163,7 +152,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -176,7 +164,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -189,7 +176,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -202,7 +188,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -215,7 +200,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -228,7 +212,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -241,7 +224,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -254,7 +236,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -267,7 +248,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -280,7 +260,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -293,7 +272,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 1,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -306,7 +284,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -319,7 +296,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -332,7 +308,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 3,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -345,7 +320,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 3,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -358,7 +332,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 4,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -371,7 +344,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 4,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -384,7 +356,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 5,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -397,7 +368,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 5,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -410,7 +380,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 6,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -423,7 +392,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 6,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -436,7 +404,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 7,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -449,7 +416,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 7,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -462,7 +428,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 8,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -475,7 +440,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 8,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -488,7 +452,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 9,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -501,7 +464,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 9,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -514,7 +476,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 10,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -527,7 +488,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 10,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -540,7 +500,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
@@ -553,7 +512,6 @@ class ChargesSeeder extends Seeder
             'increase'       => 15,
             'state'       => 1,
             'idinscription'       => 2,
-            'deleted_at'       => null,
             'created_at'       => date('Y-m-d H:m:s'),
             'updated_at'       => date('Y-m-d H:m:s')
         ]);
