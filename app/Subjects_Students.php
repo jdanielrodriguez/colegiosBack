@@ -14,7 +14,7 @@ class Subjects_Students extends Model
     }
 
     public function assistance(){
-        return $this->hasMany('App\Students_Assistance','subject_student','id')->orderby('assistance_date','des');
+        return $this->hasMany('App\Students_Assistance','subject_student','id')->orderby('assistance_date','desc');
     }
 
     public function homework(){
