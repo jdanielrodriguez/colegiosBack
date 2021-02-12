@@ -67,7 +67,7 @@ class Subjects_StudentsController extends Controller
     public function studentsReport($id,$id2)
     {
         $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->first();
-        if ($objectSee && count($objectSee->students)>0) {
+        if ($objectSee && $objectSee->students) {
 
             $viewPDF = view('pdf.StudentsWithData', ["student" => $objectSee]);
             $pdf = PDF::loadHTML($viewPDF);
