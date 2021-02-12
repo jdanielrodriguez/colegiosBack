@@ -67,7 +67,7 @@ class Subjects_StudentsController extends Controller
     public function studentsReport($id,$id2)
     {
         $objectSee = Subjects_Students::whereRaw('student=? and cycle_study_day_grade_subject=?',[$id2,$id])->with('students')->with('assistance')->with('homework')->first();
-        if ($objectSee) {
+        if ($objectSee && count($objectSee->students)>0) {
 
             $viewPDF = view('pdf.StudentsWithData', ["student" => $objectSee]);
             $pdf = PDF::loadHTML($viewPDF);
@@ -91,7 +91,7 @@ class Subjects_StudentsController extends Controller
         $objectSee = Inscriptions_Cycles_Studying_Days::whereRaw('(year like "'.($date).'%" or year like "'.($date-1).'%")')->where('inscription',$objectSee1->id)->first();
         $objectSeeCycles = Cycles_Studying_Days_Grades::whereRaw('id=?',[$objectSee->csdg])->with('grades')->with('cycles_studying_days')->get();
         //  return Response::json($objectSeeCycles, 200);
-        if ($objectSeeCycles) {
+        if ($objectSeeCycles  && ($objectSee->grades) && ($objectSee->cycles_studying_days)) {
             $Notes = (object) array("materias" => "", "ciclos" => [] );
             $array = [];
             foreach ($objectSeeCycles as $grade) {
