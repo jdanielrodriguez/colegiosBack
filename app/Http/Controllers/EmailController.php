@@ -16,7 +16,7 @@ class EmailController extends Controller
 {
     public static function sendConfirmUser($newObjectT, Request $request){
         try {
-            Mail::send('emails.confirm', ['empresa' => 'Digibooks / TeachTics', 'url' => 'https://insm.digibooks.app', 'app' => 'teachtics@josedanielrodriguez.com', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
+            Mail::send('emails.confirm', ['empresa' => 'Digibooks / TeachTics', 'url' => 'https://cojp.digibooks.app', 'app' => 'teachtics@josedanielrodriguez.com', 'password' => $request->get('password'), 'username' => $newObjectT->username, 'email' => $newObjectT->email, 'name' => $newObjectT->firstname.' '.$newObjectT->lastname,], function (Message $message) use ($newObjectT){
                 $message->from('teachtics@josedanielrodriguez.com', 'Info TeachTics')
                         ->sender('teachtics@josedanielrodriguez.com', 'Info TeachTics')
                         ->to("".$newObjectT->email, $newObjectT->firstname.' '.$newObjectT->lastname)
@@ -31,7 +31,7 @@ class EmailController extends Controller
 
     public static function sendRecovery($objectUpdate, $pass){
         try {
-            Mail::send('emails.recovery', ['empresa' => 'Digibooks / TeachTics', 'url' => 'https://insm.digibooks.app', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
+            Mail::send('emails.recovery', ['empresa' => 'Digibooks / TeachTics', 'url' => 'https://cojp.digibooks.app', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
                 $message->from('teachtics@josedanielrodriguez.com', 'Info TechTics')
                         ->sender('teachtics@josedanielrodriguez.com', 'Info TechTics')
                         ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
