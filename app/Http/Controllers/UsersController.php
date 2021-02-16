@@ -108,19 +108,7 @@ class UsersController extends Controller
                 $pass = $faker->password();
                 $objectUpdate->password = bcrypt($pass);
                 $objectUpdate->state = 2;
-                
-                try {
-                    Mail::send('emails.recovery', ['empresa' => 'TechTics', 'url' => 'https://TechTics.gt', 'password' => $pass, 'email' => $objectUpdate->email, 'name' => $objectUpdate->firstname.' '.$objectUpdate->lastname,], function (Message $message) use ($objectUpdate){
-                        $message->from('teachtics@josedanielrodriguez.com', 'Info TechTics')
-                                ->sender('teachtics@josedanielrodriguez.com', 'Info TechTics')
-                                ->to($objectUpdate->email, $objectUpdate->firstname.' '.$objectUpdate->lastname)
-                                ->replyTo('teachtics@josedanielrodriguez.com', 'Info TechTics')
-                                ->subject('Contraseña Reestablecida');
-                    });
-                } 
-                catch (Swift_TransportException $e) {
-                }
-                
+                EmailController::sendRecovery($objectUpdate, $pass);
                 $objectUpdate->save();
                 
                 return Response::json($objectUpdate, 200);
